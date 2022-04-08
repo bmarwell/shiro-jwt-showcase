@@ -1,16 +1,44 @@
 = Apache Shiro with JWT as Token Showcase
+:toc: macro
+:idprefix:
+:icons: font
+
+This project is a showcase how you can use https://shiro.apache.org[Apache Shiro] with JWTs (pronounced: jots).
+
+The idea here is to use as few shipped dependencies as possible.
+All dependencies possible should be provided by an JavaEE application server.
+
+toc::[]
 
 == Tech stack
 
-* Apache Shiro
+* https://shiro.apache.com[Apache Shiro]
 * MicroProfile JWT
 * JAX-RS 2.1
+* https://maven.apache.org[Apache Maven]
 
 Additional used tech which is optional / swappable:
 
-* OpenLiberty
-* CDI 2.0
-* JSON-B
-* JJWT with custom JSON-B serializer
+* https://openliberty.io[IBM OpenLiberty] (any JavaEE + MP application server should do)
+* Jakarta CDI 2.0
+* Jakarta JSON-B
+* JJWT with custom JSON-B serializer (for issuing only)
 * MicroProfile Config 2.0
 
+== Sub-Projects
+
+Execute them using `./mvnw -f <projectdir> liberty:dev`.
+
+issuer::
+The issuing server to get a JWT from.
+Not part of the tutorial, usually transparent for your application.
++
+Starts at port 9081 as a side server.
+Curl using `curl -H 'accept: application/json' -H 'content-type: application/json' -v -d '{ "username": "me", "password": "me" }' --url "http://localhost:9080/login"`.
+Credentials are irrelevant, as long as they are the same.
+
+start::
+Tutorial start setup.
+
+finish::
+Tutorial finish setup.
