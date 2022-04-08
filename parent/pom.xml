@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github.bmarwell.shiro</groupId>
+  <artifactId>shiro.jwt.jaxrs.parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <name>Apache Shiro + mpJWT :: parent</name>
+  <packaging>pom</packaging>
+
+  <!-- sorted:
+    project settings, dependencies and plugins.
+    deps + plugins are divided into: project, jakarta+mp, others.
+  -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+    <!-- liberty settings -->
+    <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+    <liberty.var.app.filename>${project.artifactId}-${project.version}</liberty.var.app.filename>
+    <liberty.var.app.context.root>/</liberty.var.app.context.root>
+
+    <!-- Jakarta + MP dependencies -->
+    <dependency.jakarta.ws.rs-api.version>2.1.2</dependency.jakarta.ws.rs-api.version>
+    <dependency.jakarta.enterprise.cdi-api.version>2.0.2</dependency.jakarta.enterprise.cdi-api.version>
+    <dependency.jakarta.json.bind-api.version>1.0.2</dependency.jakarta.json.bind-api.version>
+
+    <!-- 3rd party plugins -->
+    <plugin.liberty-maven-plugin.version>3.3.4</plugin.liberty-maven-plugin.version>
+    <plugin.keytool-maven-plugin.version>1.5</plugin.keytool-maven-plugin.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Jakarta EE dependencies -->
+      <dependency>
+        <groupId>jakarta.ws.rs</groupId>
+        <artifactId>jakarta.ws.rs-api</artifactId>
+        <version>${dependency.jakarta.ws.rs-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <version>${dependency.jakarta.enterprise.cdi-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.json.bind</groupId>
+        <artifactId>jakarta.json.bind-api</artifactId>
+        <version>${dependency.jakarta.json.bind-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.microprofile.config</groupId>
+        <artifactId>microprofile-config-api</artifactId>
+        <version>2.0</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.enterprise</groupId>
+      <artifactId>jakarta.enterprise.cdi-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.microprofile.config</groupId>
+      <artifactId>microprofile-config-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <!-- maven plugins -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.10.1</version>
+        </plugin>
+        <!-- 3rd party plugins -->
+        <plugin>
+          <groupId>io.openliberty.tools</groupId>
+          <artifactId>liberty-maven-plugin</artifactId>
+          <version>${plugin.liberty-maven-plugin.version}</version>
+
+          <configuration>
+            <features>
+              <acceptLicense>true</acceptLicense>
+            </features>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>keytool-maven-plugin</artifactId>
+          <version>${plugin.keytool-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
