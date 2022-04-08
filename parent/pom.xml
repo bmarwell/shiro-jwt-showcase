@@ -26,7 +26,7 @@
     <liberty.var.app.context.root>/</liberty.var.app.context.root>
 
     <!-- Jakarta + MP dependencies -->
-    <dependency.jakarta.ws.rs-api.version>2.1.2</dependency.jakarta.ws.rs-api.version>
+    <dependency.jakarta.ws.rs-api.version>2.1.6</dependency.jakarta.ws.rs-api.version>
     <dependency.jakarta.enterprise.cdi-api.version>2.0.2</dependency.jakarta.enterprise.cdi-api.version>
     <dependency.jakarta.json.bind-api.version>1.0.2</dependency.jakarta.json.bind-api.version>
 
