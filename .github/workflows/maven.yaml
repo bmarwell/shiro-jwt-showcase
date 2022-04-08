@@ -1,0 +1,30 @@
+name: Maven CI
+
+on:
+  workflow_dispatch: { }
+  push: { }
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Build issuer web application with Maven
+        run: ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file issuer verify -Pdocs #,dockerize
+
+      - name: Build start web application with Maven
+        run: true || ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file start verify -Pdocs #,dockerize
+
+      - name: Build finish web application with Maven
+        run: true || ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file finish verify -Pdocs #,dockerize
