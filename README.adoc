@@ -1,7 +1,14 @@
 = Apache Shiro with JWT as Token Showcase
 :toc: macro
+:toclevels: 4
 :idprefix:
 :icons: font
+
+https://github.com/bmarwell/shiro-jwt-showcase/actions/workflows/maven.yaml[image:https://github.com/bmarwell/shiro-jwt-showcase/actions/workflows/maven.yaml/badge.svg[Maven
+CI]]
+https://opensource.org/licenses/Apache-2.0[image:https://img.shields.io/badge/License-Apache_2.0-blue.svg[License]]
+https://renovatebot.com[image:https://img.shields.io/badge/renovate-enabled-brightgreen.svg[Renovate]]
+link:https://openliberty.io/[image:https://img.shields.io/badge/AppServer-Open%20Liberty-blue[AppServer]]
 
 This project is a showcase how you can use https://shiro.apache.org[Apache Shiro] with JWTs (pronounced: jots).
 
