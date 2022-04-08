@@ -30,6 +30,14 @@
     <dependency.jakarta.enterprise.cdi-api.version>2.0.2</dependency.jakarta.enterprise.cdi-api.version>
     <dependency.jakarta.json.bind-api.version>1.0.2</dependency.jakarta.json.bind-api.version>
 
+    <!-- maven plugins -->
+    <plugin.maven-dependency-plugin.version>3.2.0</plugin.maven-dependency-plugin.version>
+    <plugin.maven-resources-plugin.version>3.2.0</plugin.maven-resources-plugin.version>
+    <plugin.maven-compiler-plugin.version>3.10.1</plugin.maven-compiler-plugin.version>
+    <plugin.maven-war-plugin.version>3.3.2</plugin.maven-war-plugin.version>
+    <pluginmaven-surefire-plugin.version>3.0.0-M5</pluginmaven-surefire-plugin.version>
+    <plugin.maven-failsafe-plugin.version>3.0.0-M5</plugin.maven-failsafe-plugin.version>
+
     <!-- 3rd party plugins -->
     <plugin.liberty-maven-plugin.version>3.3.4</plugin.liberty-maven-plugin.version>
     <plugin.keytool-maven-plugin.version>1.5</plugin.keytool-maven-plugin.version>
@@ -97,9 +105,38 @@
         <!-- maven plugins -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.10.1</version>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${plugin.maven-dependency-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${plugin.maven-resources-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${plugin.maven-compiler-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${plugin.maven-war-plugin.version}</version>
+          <configuration>
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${pluginmaven-surefire-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${plugin.maven-failsafe-plugin.version}</version>
+        </plugin>
+
         <!-- 3rd party plugins -->
         <plugin>
           <groupId>io.openliberty.tools</groupId>
