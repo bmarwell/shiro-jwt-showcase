@@ -1,0 +1,16 @@
+= Apache Shiro with JWT as Token Showcase
+
+== Tech stack
+
+* Apache Shiro
+* MicroProfile JWT
+* JAX-RS 2.1
+
+Additional used tech which is optional / swappable:
+
+* OpenLiberty
+* CDI 2.0
+* JSON-B
+* JJWT with custom JSON-B serializer
+* MicroProfile Config 2.0
+
