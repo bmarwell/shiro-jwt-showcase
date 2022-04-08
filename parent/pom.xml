@@ -35,7 +35,7 @@
     <plugin.maven-resources-plugin.version>3.2.0</plugin.maven-resources-plugin.version>
     <plugin.maven-compiler-plugin.version>3.10.1</plugin.maven-compiler-plugin.version>
     <plugin.maven-war-plugin.version>3.3.2</plugin.maven-war-plugin.version>
-    <pluginmaven-surefire-plugin.version>3.0.0-M5</pluginmaven-surefire-plugin.version>
+    <pluginmaven-surefire-plugin.version>3.0.0-M6</pluginmaven-surefire-plugin.version>
     <plugin.maven-failsafe-plugin.version>3.0.0-M5</plugin.maven-failsafe-plugin.version>
 
     <!-- 3rd party plugins -->
