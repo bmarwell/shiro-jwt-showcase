@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.bmarwell.shiro</groupId>
+    <artifactId>shiro.jwt.jaxrs.parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>shiro.jwt.jaxrs.start</artifactId>
+  <name>Apache Shiro + mpJWT :: start server</name>
+  <packaging>war</packaging>
+
+  <properties>
+    <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+    <liberty.var.app.filename>${project.artifactId}-${project.version}</liberty.var.app.filename>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-jaxrs</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>
