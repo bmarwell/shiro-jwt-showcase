@@ -3,6 +3,7 @@ package io.github.bmarwell.shiro.issuer;
 import io.github.bmarwell.shiro.issuer.dto.LoginCredentials;
 import io.github.bmarwell.shiro.issuer.services.CredentialsValidator;
 import io.github.bmarwell.shiro.issuer.services.TokenService;
+import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -38,13 +39,8 @@ public class IssueEndpoint {
     String jwt = tokenService.createJwt(credentials);
 
     return Response.accepted()
-        .entity(jwt)
+        .entity(Map.of("token", jwt))
         .build();
   }
 
-  private void validate(LoginCredentials credentials) {
-    // TODO: implement
-    throw new UnsupportedOperationException(
-        "not yet implemented: [io.github.bmarwell.shiro.issuer.IssueEndpoint::validate].");
-  }
 }
