@@ -41,7 +41,7 @@ The issuing server to get a JWT from.
 Not part of the tutorial, usually transparent for your application.
 +
 Starts at port 9081 as a side server.
-Curl using `curl -H 'accept: application/json' -H 'content-type: application/json' -v -d '{ "username": "me", "password": "me" }' --url "http://localhost:9080/login"`.
+Curl using `curl -H 'accept: application/json' -H 'content-type: application/json' -v -d '{ "username": "me", "password": "me" }' --url "http://localhost:9081/login?roles=admin,user"`.
 Credentials are irrelevant, as long as they are the same.
 
 start::

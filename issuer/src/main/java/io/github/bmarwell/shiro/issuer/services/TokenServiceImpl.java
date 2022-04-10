@@ -4,6 +4,7 @@ import io.github.bmarwell.shiro.issuer.dto.LoginCredentials;
 import io.jsonwebtoken.JwtBuilder;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
@@ -22,7 +23,7 @@ public class TokenServiceImpl implements TokenService {
   String issuerName;
 
   @Override
-  public String createJwt(LoginCredentials credentials) {
+  public String createJwt(LoginCredentials credentials, List<String> roles) {
     final java.util.Date from = Date.from(Instant.now());
     final java.util.Date expires = Date.from(Instant.now().plusSeconds(60_000L));
 
@@ -33,7 +34,7 @@ public class TokenServiceImpl implements TokenService {
         .setNotBefore(from)
         .setExpiration(expires)
         .setAudience("shiro-jwt")
-        .setClaims(Map.of())
+        .setClaims(Map.of("roles", roles))
         .compact();
   }
 }
