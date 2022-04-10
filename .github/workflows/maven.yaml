@@ -21,10 +21,10 @@ jobs:
           distribution: temurin
 
       - name: Build issuer web application with Maven
-        run: ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file issuer verify -Pdocs #,dockerize
+        run: ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file issuer verify -Pdocs
 
       - name: Build start web application with Maven
-        run: true || ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file start verify -Pdocs #,dockerize
+        run: ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file start verify -Pdocs
 
       - name: Build finish web application with Maven
-        run: true || ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file finish verify -Pdocs #,dockerize
+        run: ./mvnw --show-version --errors --batch-mode --no-transfer-progress --file finish verify -Pdocs

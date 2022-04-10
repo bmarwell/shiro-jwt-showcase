@@ -26,9 +26,16 @@
     <liberty.var.app.context.root>/</liberty.var.app.context.root>
 
     <!-- Jakarta + MP dependencies -->
+    <dependency.jakarta.servlet-api.version>4.0.4</dependency.jakarta.servlet-api.version>
     <dependency.jakarta.ws.rs-api.version>2.1.6</dependency.jakarta.ws.rs-api.version>
     <dependency.jakarta.enterprise.cdi-api.version>2.0.2</dependency.jakarta.enterprise.cdi-api.version>
     <dependency.jakarta.json.bind-api.version>1.0.2</dependency.jakarta.json.bind-api.version>
+
+    <!-- 3rd party dependencies -->
+    <dependency.shiro.version>1.9.0</dependency.shiro.version>
+
+    <!-- logging -->
+    <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
 
     <!-- maven plugins -->
     <plugin.maven-dependency-plugin.version>3.3.0</plugin.maven-dependency-plugin.version>
@@ -46,6 +53,13 @@
   <dependencyManagement>
     <dependencies>
       <!-- Jakarta EE dependencies -->
+      <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>${dependency.jakarta.servlet-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
       <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
@@ -73,10 +87,48 @@
         <version>2.0.1</version>
         <scope>provided</scope>
       </dependency>
+
+      <!-- 3rd party -->
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-core</artifactId>
+        <version>${dependency.shiro.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-web</artifactId>
+        <version>${dependency.shiro.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-jaxrs</artifactId>
+        <version>${dependency.shiro.version}</version>
+      </dependency>
+
+      <!-- logging -->
+      <!-- Shiro brings slf4j -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-jdk14</artifactId>
+        <version>${dependency.slf4j.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <!-- shiro requires jcl/apache commons logging, too -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${dependency.slf4j.version}</version>
+        <scope>runtime</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
@@ -96,6 +148,17 @@
       <groupId>org.eclipse.microprofile.config</groupId>
       <artifactId>microprofile-config-api</artifactId>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
 
