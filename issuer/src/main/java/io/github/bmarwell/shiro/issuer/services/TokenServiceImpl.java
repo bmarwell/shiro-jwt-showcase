@@ -32,6 +32,7 @@ public class TokenServiceImpl implements TokenService {
         .setIssuedAt(from)
         .setNotBefore(from)
         .setExpiration(expires)
+        .setAudience("shiro-jwt")
         .setClaims(Map.of())
         .compact();
   }
