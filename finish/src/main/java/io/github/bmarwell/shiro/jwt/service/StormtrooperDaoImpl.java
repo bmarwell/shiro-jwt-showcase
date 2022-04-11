@@ -31,7 +31,7 @@ public class StormtrooperDaoImpl implements StormtrooperDao {
   public Stormtrooper addStormtrooper(Stormtrooper trooper) {
     // make sure *we* assign the number.
     String id = String.format(Locale.ROOT, "FN-%5d", generateRandomId());
-    final Stormtrooper stormtrooper = new Stormtrooper(id, trooper.getPlanetOfOrigin(), trooper.getSpecies(), trooper.getType());
+    final Stormtrooper stormtrooper = new Stormtrooper(id, trooper.planetOfOrigin(), trooper.species(), trooper.type());
     STORMTROOPERS.put(id, stormtrooper);
 
     return STORMTROOPERS.get(id);
@@ -40,7 +40,7 @@ public class StormtrooperDaoImpl implements StormtrooperDao {
   @Override
   public Stormtrooper updateStormtrooper(String id, Stormtrooper updatedTrooper) {
     // make sure the ID matches
-    final Stormtrooper stormtrooper = new Stormtrooper(id, updatedTrooper.getPlanetOfOrigin(), updatedTrooper.getSpecies(), updatedTrooper.getType());
+    final Stormtrooper stormtrooper = new Stormtrooper(id, updatedTrooper.planetOfOrigin(), updatedTrooper.species(), updatedTrooper.type());
     STORMTROOPERS.put(id, stormtrooper);
 
     return STORMTROOPERS.get(id);
