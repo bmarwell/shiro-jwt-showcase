@@ -25,6 +25,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <!--suppress CheckTagEmptyBody -->
+    <surefire.argLine></surefire.argLine>
+    <!--suppress CheckTagEmptyBody -->
+    <failsafe.argLine></failsafe.argLine>
 
     <!-- liberty settings -->
     <liberty.var.default.http.port>9080</liberty.var.default.http.port>
@@ -41,9 +45,17 @@
 
     <!-- 3rd party dependencies -->
     <dependency.shiro.version>1.9.0</dependency.shiro.version>
+    <dependency.cxf-rt-rs-client.version>3.0.15</dependency.cxf-rt-rs-client.version>
+    <dependency.jaxb-api.version>2.3.1</dependency.jaxb-api.version>
+    <dependency.jaxb-runtime.version>2.3.2</dependency.jaxb-runtime.version>
+    <dependency.johnzon-jsonb.version>1.2.15</dependency.johnzon-jsonb.version>
 
     <!-- logging -->
     <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
+
+    <!-- test dependencies -->
+    <dependency.assertj.version>3.22.0</dependency.assertj.version>
+    <dependency.junit.version>5.8.2</dependency.junit.version>
 
     <!-- maven plugins -->
     <plugin.maven-dependency-plugin.version>3.3.0</plugin.maven-dependency-plugin.version>
@@ -120,6 +132,30 @@
         <artifactId>shiro-jaxrs</artifactId>
         <version>${dependency.shiro.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-client</artifactId>
+        <version>${dependency.cxf-rt-rs-client.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>${dependency.jaxb-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>${dependency.jaxb-runtime.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.johnzon</groupId>
+        <artifactId>johnzon-jsonb</artifactId>
+        <version>${dependency.johnzon-jsonb.version}</version>
+        <scope>test</scope>
+      </dependency>
 
       <!-- logging -->
       <!-- Shiro brings slf4j -->
@@ -135,6 +171,22 @@
         <artifactId>jcl-over-slf4j</artifactId>
         <version>${dependency.slf4j.version}</version>
         <scope>runtime</scope>
+      </dependency>
+
+      <!-- test dependencies -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${dependency.junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${dependency.assertj.version}</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -176,6 +228,22 @@
       <artifactId>jcl-over-slf4j</artifactId>
       <scope>runtime</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -214,11 +282,19 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${plugin.maven-surefire-plugin.version}</version>
+          <configuration>
+            <argLine>${surefire.argLine}</argLine>
+            <shutdown>kill</shutdown>
+            <enableProcessChecker>native</enableProcessChecker>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>${plugin.maven-failsafe-plugin.version}</version>
+          <configuration>
+            <argLine>${failsafe.argLine}</argLine>
+          </configuration>
         </plugin>
 
         <!-- 3rd party plugins -->
@@ -241,6 +317,21 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
 </project>
