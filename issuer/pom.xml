@@ -20,7 +20,7 @@
     <liberty.var.app.filename>${project.artifactId}-${project.version}</liberty.var.app.filename>
 
     <liberty.env.KEYSTORE_PATH>${project.basedir}/src/main/resources/keystore.p12</liberty.env.KEYSTORE_PATH>
-    <liberty.env.ISSUER_NAME>OpenLiberty Issuing Service</liberty.env.ISSUER_NAME>
+    <liberty.env.ISSUER_NAME>http://localhost:${liberty.var.default.http.port}/</liberty.env.ISSUER_NAME>
   </properties>
 
   <dependencies>
