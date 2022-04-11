@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.bmarwell.shiro</groupId>
-  <artifactId>shiro.jwt.jaxrs.parent</artifactId>
+  <artifactId>shiro.jwt.jaxrs.root</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-
-  <name>Apache Shiro + mpJWT :: parent</name>
+  <name>Apache Shiro + mpJWT</name>
   <packaging>pom</packaging>
+
+  <modules>
+    <module>keystore</module>
+    <module>issuer</module>
+    <module>start</module>
+    <module>finish</module>
+  </modules>
 
   <!-- sorted:
     project settings, dependencies and plugins.
@@ -24,6 +30,8 @@
     <liberty.var.default.http.port>9080</liberty.var.default.http.port>
     <liberty.var.app.filename>${project.artifactId}-${project.version}</liberty.var.app.filename>
     <liberty.var.app.context.root>/</liberty.var.app.context.root>
+    <issuer.port>9081</issuer.port>
+    <liberty.env.ISSUER_NAME>http://localhost:${issuer.port}/</liberty.env.ISSUER_NAME>
 
     <!-- Jakarta + MP dependencies -->
     <dependency.jakarta.servlet-api.version>4.0.4</dependency.jakarta.servlet-api.version>
@@ -39,10 +47,11 @@
 
     <!-- maven plugins -->
     <plugin.maven-dependency-plugin.version>3.3.0</plugin.maven-dependency-plugin.version>
+    <plugin.maven-source-plugin.version>3.2.1</plugin.maven-source-plugin.version>
     <plugin.maven-resources-plugin.version>3.2.0</plugin.maven-resources-plugin.version>
     <plugin.maven-compiler-plugin.version>3.10.1</plugin.maven-compiler-plugin.version>
     <plugin.maven-war-plugin.version>3.3.2</plugin.maven-war-plugin.version>
-    <pluginmaven-surefire-plugin.version>3.0.0-M6</pluginmaven-surefire-plugin.version>
+    <plugin.maven-surefire-plugin.version>3.0.0-M6</plugin.maven-surefire-plugin.version>
     <plugin.maven-failsafe-plugin.version>3.0.0-M6</plugin.maven-failsafe-plugin.version>
 
     <!-- 3rd party plugins -->
@@ -52,6 +61,13 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- project dependencies -->
+      <dependency>
+        <groupId>io.github.bmarwell.shiro</groupId>
+        <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <!-- Jakarta EE dependencies -->
       <dependency>
         <groupId>jakarta.servlet</groupId>
@@ -173,6 +189,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${plugin.maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>${plugin.maven-resources-plugin.version}</version>
         </plugin>
@@ -192,7 +213,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>${pluginmaven-surefire-plugin.version}</version>
+          <version>${plugin.maven-surefire-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -221,4 +242,5 @@
       </plugins>
     </pluginManagement>
   </build>
+
 </project>

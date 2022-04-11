@@ -6,9 +6,8 @@
 
   <parent>
     <groupId>io.github.bmarwell.shiro</groupId>
-    <artifactId>shiro.jwt.jaxrs.parent</artifactId>
+    <artifactId>shiro.jwt.jaxrs.root</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <artifactId>shiro.jwt.jaxrs.issuer</artifactId>
@@ -16,11 +15,10 @@
   <packaging>war</packaging>
 
   <properties>
-    <liberty.var.default.http.port>9081</liberty.var.default.http.port>
+    <liberty.var.default.http.port>${issuer.port}</liberty.var.default.http.port>
     <liberty.var.app.filename>${project.artifactId}-${project.version}</liberty.var.app.filename>
 
     <liberty.env.KEYSTORE_PATH>${project.basedir}/src/main/resources/keystore.p12</liberty.env.KEYSTORE_PATH>
-    <liberty.env.ISSUER_NAME>http://localhost:${liberty.var.default.http.port}/</liberty.env.ISSUER_NAME>
   </properties>
 
   <dependencies>
@@ -39,32 +37,10 @@
       <version>0.11.2</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>io.github.bmarwell.shiro</groupId>
+      <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
+    </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>keytool-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>generateKeyPair</goal>
-            </goals>
-            <configuration>
-              <keystore>${liberty.env.KEYSTORE_PATH}</keystore>
-              <dname>CN=${liberty.env.ISSUER_NAME}, OU=, O=, L=, S=, C=DE</dname>
-              <keyalg>ec</keyalg>
-              <storepass>changeit</storepass>
-              <keypass>changeit</keypass>
-              <alias>issuer</alias>
-              <skipIfExist>true</skipIfExist>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

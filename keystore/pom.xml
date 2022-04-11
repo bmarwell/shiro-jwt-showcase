@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.bmarwell.shiro</groupId>
+    <artifactId>shiro.jwt.jaxrs.root</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
+  <name>Apache Shiro + mpJWT :: keystore</name>
+  <packaging>jar</packaging>
+
+  <properties>
+    <keystore.path>${project.basedir}/src/main/resources/io/github/bmarwell/shiro/keystore/keystore.p12</keystore.path>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>keytool-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>generateKeyPair</goal>
+            </goals>
+            <configuration>
+              <keystore>${keystore.path}</keystore>
+              <dname>CN=${liberty.env.ISSUER_NAME}, OU=, O=, L=, S=, C=DE</dname>
+              <keyalg>ec</keyalg>
+              <storepass>changeit</storepass>
+              <keypass>changeit</keypass>
+              <alias>issuer</alias>
+              <skipIfExist>true</skipIfExist>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
