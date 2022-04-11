@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -26,6 +27,7 @@ public class KeyService implements Serializable {
 
   private static final String KEY_STORE_TYPE = "PKCS12";
   private static final char[] KEY_STORE_PASSWORD = "changeit".toCharArray();
+  private static final char[] KEY_PASSWORD = "changeit".toCharArray();
 
   @Inject
   private JsonbSerializer jsonbSerializer;
@@ -45,10 +47,10 @@ public class KeyService implements Serializable {
   }
 
   @Produces
-  @ApplicationScoped
+  @Dependent
   public JwtBuilder createJwtBuilder()
       throws CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
-    final Key signerKey = createKeyStore().getKey("issuer", "changeit".toCharArray());
+    final Key signerKey = createKeyStore().getKey("issuer", KEY_PASSWORD);
 
     return Jwts.builder()
         .serializeToJsonWith(jsonbSerializer)
