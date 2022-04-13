@@ -19,6 +19,10 @@ import org.junit.jupiter.api.Test;
 
 public abstract class AbstractShiroJaxRsIT {
 
+  private static final String JWT = "CnsKICAgICJhbGciOiAiRVMyNTYiCn0"
+      + ".CnsKICAgICJyb2xlcyI6IFsKICAgICAgICAiYWRtaW4iCiAgICBdCn0"
+      + ".0YkoLImljmhfK0o84Q63r1uJKUB5cafLHSqANO9nH53KL3Dr6K2xYg0KTE8kHzNY_IHvk85dhBWV8p1rPirBoA";
+
   final Client client = ClientBuilder.newClient()
       .register(new JsonbConfigProvider())
       .register(new JsonbJaxrsProvider<>());
@@ -43,7 +47,7 @@ public abstract class AbstractShiroJaxRsIT {
   @Test
   public void testGetUsersBasicAuthenticated() {
     final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
-    final String basicToken = Base64.getEncoder().encodeToString("root:secret".getBytes(StandardCharsets.UTF_8));
+    final String basicToken = Base64.getEncoder().encodeToString(JWT.getBytes(StandardCharsets.UTF_8));
     final Response usersResponse = usersTarget.request(MediaType.APPLICATION_JSON_TYPE)
         .header("Authorization", "Bearer " + basicToken)
         .buildGet()

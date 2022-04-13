@@ -17,11 +17,14 @@
   <properties>
     <liberty.var.default.http.port>${issuer.port}</liberty.var.default.http.port>
     <liberty.var.app.filename>${project.artifactId}-${project.version}</liberty.var.app.filename>
-
-    <liberty.env.KEYSTORE_PATH>${project.basedir}/src/main/resources/keystore.p12</liberty.env.KEYSTORE_PATH>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>io.github.bmarwell.shiro</groupId>
+      <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
+    </dependency>
+
     <!-- this dependency does not exist in start/finish, because this server is meant to be your
     transparent company’s issuing server.
     Also not using com.auth0:java-jwt, because it is bound to jackson.
@@ -36,10 +39,6 @@
       <artifactId>jjwt-impl</artifactId>
       <version>0.11.2</version>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.github.bmarwell.shiro</groupId>
-      <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
     </dependency>
   </dependencies>
 
