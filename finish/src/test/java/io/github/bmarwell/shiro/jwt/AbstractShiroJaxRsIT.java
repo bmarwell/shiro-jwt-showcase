@@ -43,9 +43,7 @@ public abstract class AbstractShiroJaxRsIT {
   }
 
   /**
-   * Test authenticated user.
-   *
-   * <p>TODO: Test will fail later.</p>
+   * Test authenticated user with an invalid token (wrong signature/signer).
    */
   @Test
   public void testGetUsersBasicAuthenticated() {
@@ -55,7 +53,7 @@ public abstract class AbstractShiroJaxRsIT {
         .buildGet()
         .invoke();
     assertThat(usersResponse.getStatus())
-        .isEqualTo(Status.OK.getStatusCode());
+        .isEqualTo(Status.UNAUTHORIZED.getStatusCode());
   }
 
 }
