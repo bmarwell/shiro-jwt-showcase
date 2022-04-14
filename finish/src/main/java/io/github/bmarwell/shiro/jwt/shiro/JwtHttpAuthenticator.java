@@ -1,11 +1,8 @@
 package io.github.bmarwell.shiro.jwt.shiro;
 
-import io.github.bmarwell.shiro.jwt.json.JsonbJwtDeserializer;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.inject.Instance;
@@ -14,23 +11,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BearerHttpAuthenticationFilter;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 
 public class JwtHttpAuthenticator extends BearerHttpAuthenticationFilter {
 
   private static final Logger LOG = Logger.getLogger(JwtHttpAuthenticator.class.getName());
 
-  private final Instance<JsonbJwtDeserializer> jsonbJwtDeserializer;
-
-  private final String issuerName;
-
+  private final Instance<JwtParser> jwtParser;
 
   public JwtHttpAuthenticator() {
     super();
-    this.jsonbJwtDeserializer = CDI.current().select(JsonbJwtDeserializer.class);
-    Config config = ConfigProvider.getConfig();
-    this.issuerName = config.getValue("issuer.name", String.class);
+    this.jwtParser = CDI.current().select(JwtParser.class);
   }
 
   @Override
@@ -45,17 +35,10 @@ public class JwtHttpAuthenticator extends BearerHttpAuthenticationFilter {
     LOG.log(Level.FINER, "Attempting to execute login with auth header");
     final String[] principalsAndCredentials = getPrincipalsAndCredentials(authorizationHeaderContent, request);
 
-    final JwtParser jwtParser = Jwts.parserBuilder()
-        //.setSigningKey((Key) null)
-        .deserializeJsonWith(jsonbJwtDeserializer.get())
-        // see: TokenServiceImpl.java
-        .requireAudience("shiro-jwt")
-        .requireIssuer(issuerName)
-        .build();
+    // TODO: the verifying should instead be done in a credentials matcher.
+    final Jws<Claims> jws = jwtParser.get().parseClaimsJws(principalsAndCredentials[0]);
 
-    final Jwt<Header<?>, Claims> jwt = jwtParser.parse(principalsAndCredentials[0]);
-
-    return new ShiroJsonWebToken(jwt);
+    return new ShiroJsonWebToken(jws);
   }
 
   @Override

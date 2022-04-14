@@ -5,7 +5,6 @@ import io.jsonwebtoken.JwtBuilder;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -34,7 +33,7 @@ public class TokenServiceImpl implements TokenService {
         .setNotBefore(from)
         .setExpiration(expires)
         .setAudience("shiro-jwt")
-        .setClaims(Map.of("roles", roles))
+        .claim("roles", roles)
         .compact();
   }
 }

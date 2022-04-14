@@ -1,23 +1,29 @@
 package io.github.bmarwell.shiro.jwt.shiro;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwt;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 public class JwtRealm extends AuthorizingRealm {
 
-  private static final ThreadLocal<Jwt<Header<?>, Claims>> jwtThreadToken = new ThreadLocal<>();
+  private static final ThreadLocal<ShiroJsonWebToken> jwtThreadToken = new ThreadLocal<>();
 
   public JwtRealm() {
     //
+  }
+
+  @Override
+  public String getName() {
+    return "jwt";
   }
 
   @Override
@@ -28,20 +34,20 @@ public class JwtRealm extends AuthorizingRealm {
   @Override
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
       throws AuthenticationException {
-    Jws jwt = (Jws) token;
+    ShiroJsonWebToken jwt = (ShiroJsonWebToken) token;
     jwtThreadToken.set(jwt);
 
-    throw new UnsupportedOperationException(
-        "not yet implemented: [io.github.bmarwell.shiro.jwt.shiro.JwtRealm::doGetAuthorizationInfo].");
+    return new SimpleAuthenticationInfo(jwt.getPrincipal(), jwt, getName());
   }
 
   @Override
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-    final Jwt<Header<?>, Claims> jsonWebToken = jwtThreadToken.get();
-    final Optional<Object> roles = Optional.ofNullable(jsonWebToken.getBody().get("roles"));
+    final ShiroJsonWebToken jsonWebToken = jwtThreadToken.get();
+    final Claims claims = jsonWebToken.getCredentials().getBody();
+    final List<String> roles = Optional.ofNullable(claims.get("roles", List.class)).orElse(List.<String>of());
     jwtThreadToken.remove();
 
-    throw new UnsupportedOperationException(
-        "not yet implemented: [io.github.bmarwell.shiro.jwt.shiro.JwtRealm::doGetAuthorizationInfo].");
+    return new SimpleAuthorizationInfo(Set.copyOf(roles));
   }
+
 }

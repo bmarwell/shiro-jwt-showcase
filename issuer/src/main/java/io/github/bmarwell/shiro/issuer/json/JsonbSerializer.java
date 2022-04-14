@@ -33,6 +33,7 @@ public class JsonbSerializer implements Serializer<Map<String, ?>> {
   public byte[] serialize(Map<String, ?> stringMap) throws SerializationException {
     return JSONB
         .toJson(stringMap)
+        .strip()
         .getBytes(StandardCharsets.UTF_8);
   }
 
