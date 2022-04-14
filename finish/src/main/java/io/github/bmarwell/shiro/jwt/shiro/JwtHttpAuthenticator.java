@@ -3,12 +3,15 @@ package io.github.bmarwell.shiro.jwt.shiro;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.MalformedJwtException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BearerHttpAuthenticationFilter;
 
@@ -36,9 +39,13 @@ public class JwtHttpAuthenticator extends BearerHttpAuthenticationFilter {
     final String[] principalsAndCredentials = getPrincipalsAndCredentials(authorizationHeaderContent, request);
 
     // TODO: the verifying should instead (only?) be done in a credentials matcher.
-    final Jws<Claims> jws = jwtParser.get().parseClaimsJws(principalsAndCredentials[0]);
+    try {
+      final Jws<Claims> jws = jwtParser.get().parseClaimsJws(principalsAndCredentials[0]);
 
-    return new ShiroJsonWebToken(jws, principalsAndCredentials[0]);
+      return new ShiroJsonWebToken(jws, principalsAndCredentials[0]);
+    } catch (MalformedJwtException jwtEx) {
+      throw new WebApplicationException("Invalid JWT.", jwtEx, Status.BAD_REQUEST);
+    }
   }
 
   @Override

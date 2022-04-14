@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.github.bmarwell.shiro.jwt.json.JsonbConfigProvider;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -19,9 +17,9 @@ import org.junit.jupiter.api.Test;
 
 public abstract class AbstractShiroJaxRsIT {
 
-  private static final String JWT = "CnsKICAgICJhbGciOiAiRVMyNTYiCn0"
-      + ".CnsKICAgICJyb2xlcyI6IFsKICAgICAgICAiYWRtaW4iCiAgICBdCn0"
-      + ".0YkoLImljmhfK0o84Q63r1uJKUB5cafLHSqANO9nH53KL3Dr6K2xYg0KTE8kHzNY_IHvk85dhBWV8p1rPirBoA";
+  private static final String JWT = "ewogICAgImFsZyI6ICJFUzI1NiIKfQ"
+      + ".ewogICAgImlzcyI6ICJodHRwOi8vbG9jYWxob3N0OjkwODEvIiwKICAgICJzdWIiOiAibWUiLAogICAgImlhdCI6IDE2NDk5MzI0NzQsCiAgICAibmJmIjogMTY0OTkzMjQ3NCwKICAgICJleHAiOiAxNjQ5OTkyNDc0LAogICAgImF1ZCI6ICJzaGlyby1qd3QiLAogICAgInJvbGVzIjogWwogICAgICAgICJhZG1pbiIsCiAgICAgICAgInVzZXIiCiAgICBdCn0"
+      + ".Nkj5mm9F4awnV7AbnyQWq9MNJZt32Vn-USMYWE8jdczK78pAkfaTo0kZCyCAZe9uMGjCZYOYh46VyAZgv86qdA";
 
   final Client client = ClientBuilder.newClient()
       .register(new JsonbConfigProvider())
@@ -44,16 +42,20 @@ public abstract class AbstractShiroJaxRsIT {
         .isEqualTo(Status.UNAUTHORIZED.getStatusCode());
   }
 
+  /**
+   * Test authenticated user.
+   *
+   * <p>TODO: Test will fail later.</p>
+   */
   @Test
   public void testGetUsersBasicAuthenticated() {
     final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
-    final String basicToken = Base64.getEncoder().encodeToString(JWT.getBytes(StandardCharsets.UTF_8));
     final Response usersResponse = usersTarget.request(MediaType.APPLICATION_JSON_TYPE)
-        .header("Authorization", "Bearer " + basicToken)
+        .header("Authorization", "Bearer " + JWT)
         .buildGet()
         .invoke();
     assertThat(usersResponse.getStatus())
-        .isEqualTo(Status.UNAUTHORIZED.getStatusCode());
+        .isEqualTo(Status.OK.getStatusCode());
   }
 
 }
