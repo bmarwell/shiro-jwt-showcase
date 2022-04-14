@@ -10,10 +10,13 @@ public class ShiroJsonWebToken implements HostAuthenticationToken {
   private final String subject;
   private final Jws<Claims> jsonWebToken;
 
-  public ShiroJsonWebToken(Jws<Claims> jsonWebToken) {
+  private final String rawToken;
+
+  public ShiroJsonWebToken(Jws<Claims> jsonWebToken, String rawToken) {
     this.host = jsonWebToken.getBody().getIssuer();
     this.subject = jsonWebToken.getBody().getSubject();
     this.jsonWebToken = jsonWebToken;
+    this.rawToken = rawToken;
   }
 
   @Override
@@ -29,5 +32,9 @@ public class ShiroJsonWebToken implements HostAuthenticationToken {
   @Override
   public Jws<Claims> getCredentials() {
     return this.jsonWebToken;
+  }
+
+  public String getRawToken() {
+    return rawToken;
   }
 }

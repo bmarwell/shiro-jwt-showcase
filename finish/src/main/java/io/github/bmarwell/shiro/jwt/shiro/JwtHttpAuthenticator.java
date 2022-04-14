@@ -35,10 +35,10 @@ public class JwtHttpAuthenticator extends BearerHttpAuthenticationFilter {
     LOG.log(Level.FINER, "Attempting to execute login with auth header");
     final String[] principalsAndCredentials = getPrincipalsAndCredentials(authorizationHeaderContent, request);
 
-    // TODO: the verifying should instead be done in a credentials matcher.
+    // TODO: the verifying should instead (only?) be done in a credentials matcher.
     final Jws<Claims> jws = jwtParser.get().parseClaimsJws(principalsAndCredentials[0]);
 
-    return new ShiroJsonWebToken(jws);
+    return new ShiroJsonWebToken(jws, principalsAndCredentials[0]);
   }
 
   @Override
