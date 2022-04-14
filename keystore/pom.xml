@@ -51,7 +51,7 @@
             </goals>
             <configuration>
               <keystore>${keystore.path}</keystore>
-              <file>${project.build.directory}/issuer.crt</file>
+              <file>${java.io.tmpdir}/issuer.crt</file>
               <alias>issuer</alias>
               <rfc>true</rfc>
               <storepass>changeit</storepass>
@@ -69,7 +69,7 @@
               <keystore>${truststore.path}</keystore>
               <storepass>changeit</storepass>
               <storetype>pkcs12</storetype>
-              <file>${project.build.directory}/issuer.crt</file>
+              <file>${java.io.tmpdir}/issuer.crt</file>
               <skipIfExist>true</skipIfExist>
               <noprompt>true</noprompt>
               <alias>issuer</alias>
