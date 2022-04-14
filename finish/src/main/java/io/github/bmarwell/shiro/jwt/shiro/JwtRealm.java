@@ -45,9 +45,10 @@ public class JwtRealm extends AuthorizingRealm {
     final ShiroJsonWebToken jsonWebToken = jwtThreadToken.get();
     final Claims claims = jsonWebToken.getCredentials().getBody();
     final List<String> roles = Optional.ofNullable(claims.get("roles", List.class)).orElse(List.<String>of());
-    jwtThreadToken.remove();
 
     return new SimpleAuthorizationInfo(Set.copyOf(roles));
   }
+
+
 
 }
