@@ -48,7 +48,7 @@
     <dependency.cxf-rt-rs-client.version>3.5.2</dependency.cxf-rt-rs-client.version>
     <dependency.jaxb-api.version>2.3.1</dependency.jaxb-api.version>
     <dependency.jaxb-runtime.version>2.3.6</dependency.jaxb-runtime.version>
-    <dependency.johnzon-jsonb.version>1.2.15</dependency.johnzon-jsonb.version>
+    <dependency.johnzon-jsonb.version>1.2.16</dependency.johnzon-jsonb.version>
 
     <!-- logging -->
     <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
