@@ -1,8 +1,9 @@
-package io.github.bmarwell.shiro.issuer.json;
+package io.github.bmarwell.shiro.jwt.json;
 
-import io.jsonwebtoken.io.SerializationException;
-import io.jsonwebtoken.io.Serializer;
-import java.nio.charset.StandardCharsets;
+import io.jsonwebtoken.io.DeserializationException;
+import io.jsonwebtoken.io.Deserializer;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
@@ -13,7 +14,7 @@ import javax.json.bind.JsonbConfig;
 
 @Default
 @ApplicationScoped
-public class JsonbSerializer implements Serializer<Map<String, ?>> {
+public class JsonbJwtDeserializer implements Deserializer<Map<String, ?>> {
 
   private static final JsonbConfig JSONB_CONFIG = new JsonbConfig()
       .withFormatting(Boolean.TRUE);
@@ -30,11 +31,12 @@ public class JsonbSerializer implements Serializer<Map<String, ?>> {
   }
 
   @Override
-  public byte[] serialize(Map<String, ?> stringMap) throws SerializationException {
-    return JSONB
-        .toJson(stringMap)
-        .strip()
-        .getBytes(StandardCharsets.UTF_8);
+  public Map<String, ?> deserialize(byte[] bytes) throws DeserializationException {
+    try (final var inputStream = new ByteArrayInputStream(bytes)) {
+      return JSONB.fromJson(inputStream, Map.class);
+    } catch (IOException javaIoIOException) {
+      throw new DeserializationException(javaIoIOException.getMessage());
+    }
   }
 
 }

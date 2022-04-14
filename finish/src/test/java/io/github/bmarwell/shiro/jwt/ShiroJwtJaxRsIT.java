@@ -3,6 +3,7 @@ package io.github.bmarwell.shiro.jwt;
 import java.net.URI;
 import org.junit.jupiter.api.TestInstance;
 
+@SuppressWarnings("NewClassNamingConvention")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ShiroJwtJaxRsIT extends AbstractShiroJaxRsIT {
 

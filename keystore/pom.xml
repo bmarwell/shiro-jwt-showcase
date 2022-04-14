@@ -16,6 +16,7 @@
 
   <properties>
     <keystore.path>${project.basedir}/src/main/resources/io/github/bmarwell/shiro/keystore/keystore.p12</keystore.path>
+    <truststore.path>${project.basedir}/src/main/resources/io/github/bmarwell/shiro/keystore/truststore.p12</truststore.path>
   </properties>
 
   <build>
@@ -25,6 +26,7 @@
         <artifactId>keytool-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>generate-keypair</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>generateKeyPair</goal>
@@ -37,6 +39,40 @@
               <keypass>changeit</keypass>
               <alias>issuer</alias>
               <skipIfExist>true</skipIfExist>
+              <storetype>pkcs12</storetype>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>export-public-certificate</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exportCertificate</goal>
+            </goals>
+            <configuration>
+              <keystore>${keystore.path}</keystore>
+              <file>${project.build.directory}/issuer.crt</file>
+              <alias>issuer</alias>
+              <rfc>true</rfc>
+              <storepass>changeit</storepass>
+              <storetype>pkcs12</storetype>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>import-public-certificate</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>importCertificate</goal>
+            </goals>
+            <configuration>
+              <keystore>${truststore.path}</keystore>
+              <storepass>changeit</storepass>
+              <storetype>pkcs12</storetype>
+              <file>${project.build.directory}/issuer.crt</file>
+              <skipIfExist>true</skipIfExist>
+              <noprompt>true</noprompt>
+              <alias>issuer</alias>
             </configuration>
           </execution>
         </executions>

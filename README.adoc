@@ -19,17 +19,16 @@ toc::[]
 
 == Tech stack
 
-* https://shiro.apache.com[Apache Shiro]
-* MicroProfile JWT
-* JAX-RS 2.1
-* https://maven.apache.org[Apache Maven]
+* https://shiro.apache.com[Apache Shiro] (Security Framework)
+* https://maven.apache.org[Apache Maven] (Build Tool)
+* JAX-RS 2.1 (Web Framework)
+* https://github.com/jwtk/jjwt[JJWT] with custom JSON-B serializer (Showcase Tech implementation)
 
 Additional used tech which is optional / swappable:
 
 * https://openliberty.io[IBM OpenLiberty] (any JavaEE + MP application server should do)
 * Jakarta CDI 2.0
 * Jakarta JSON-B
-* JJWT with custom JSON-B serializer (for issuing only)
 * MicroProfile Config 2.0
 
 == Sub-Projects

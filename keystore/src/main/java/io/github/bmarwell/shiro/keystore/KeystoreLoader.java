@@ -26,4 +26,16 @@ public class KeystoreLoader {
     return requireNonNull(keyStore);
   }
 
+  public KeyStore loadTruststore()
+      throws IOException, CertificateException, NoSuchAlgorithmException, KeyStoreException {
+    KeyStore keyStore = KeyStore.getInstance(KEY_STORE_TYPE);
+
+    try (InputStream fis = getClass().getResourceAsStream("/io/github/bmarwell/shiro/keystore/truststore.p12")) {
+      requireNonNull(fis);
+      keyStore.load(fis, KEY_STORE_PASSWORD);
+    }
+
+    return requireNonNull(keyStore);
+  }
+
 }
