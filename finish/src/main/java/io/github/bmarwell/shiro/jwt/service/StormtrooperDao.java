@@ -16,4 +16,6 @@ public interface StormtrooperDao extends Serializable {
   Stormtrooper updateStormtrooper(String id, Stormtrooper updatedTrooper);
 
   void deleteStormtrooper(String id);
+
+  void deleteAllStormTroopers();
 }

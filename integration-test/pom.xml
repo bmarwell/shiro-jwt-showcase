@@ -10,40 +10,48 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>shiro.jwt.jaxrs.finish</artifactId>
-  <name>Apache Shiro + mpJWT :: finish server</name>
-  <packaging>war</packaging>
+  <artifactId>shiro.jwt.jaxrs.integration-test</artifactId>
+  <name>Apache Shiro + mpJWT :: integration test</name>
+  <packaging>jar</packaging>
 
   <properties>
-    <liberty.var.default.http.port>9080</liberty.var.default.http.port>
-    <liberty.var.app.filename>${project.artifactId}-${project.version}</liberty.var.app.filename>
+    <liberty.var.it.http.port>9080</liberty.var.it.http.port>
+    <liberty.var.issuer.app.filename>shiro.jwt.jaxrs.issuer-${project.version}</liberty.var.issuer.app.filename>
+    <liberty.var.finish.app.filename>shiro.jwt.jaxrs.finish-${project.version}</liberty.var.finish.app.filename>
   </properties>
+
 
   <dependencies>
     <dependency>
       <groupId>io.github.bmarwell.shiro</groupId>
-      <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
+      <artifactId>shiro.jwt.jaxrs.issuer</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bmarwell.shiro</groupId>
+      <artifactId>shiro.jwt.jaxrs.finish</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bmarwell.shiro</groupId>
+      <artifactId>shiro.jwt.jaxrs.finish</artifactId>
+      <classifier>classes</classifier>
+      <type>jar</type>
     </dependency>
 
-    <!-- 3rd party dependencies -->
     <dependency>
-      <groupId>org.apache.shiro</groupId>
-      <artifactId>shiro-jaxrs</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-api</artifactId>
-      <version>0.11.2</version>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-impl</artifactId>
-      <version>0.11.2</version>
+      <groupId>jakarta.json</groupId>
+      <artifactId>jakarta.json-api</artifactId>
       <scope>runtime</scope>
     </dependency>
 
-    <!-- test -->
+
+    <!-- IT -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-rs-client</artifactId>
@@ -64,12 +72,6 @@
       <artifactId>johnzon-jsonb</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>jakarta.json</groupId>
-      <artifactId>jakarta.json-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
   </dependencies>
 
   <build>
@@ -77,39 +79,9 @@
       <plugin>
         <groupId>io.openliberty.tools</groupId>
         <artifactId>liberty-maven-plugin</artifactId>
-        <configuration>
-          <serverName>shiro-its-jaxrs-openliberty</serverName>
-          <deployPackages>project</deployPackages>
-          <!--
-          <copyDependencies>
-            <dependency>
-              <groupId>org.slf4j</groupId>
-              <artifactId>jcl-over-slf4j</artifactId>
-              <version>1.7.30</version>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.logging.log4j</groupId>
-              <artifactId>log4j-api</artifactId>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.logging.log4j</groupId>
-              <artifactId>log4j-core</artifactId>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.logging.log4j</groupId>
-              <artifactId>log4j-slf4j-impl</artifactId>
-            </dependency>
-            <dependency>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-api</artifactId>
-              <version>1.7.30</version>
-            </dependency>
-          </copyDependencies>
-          -->
-        </configuration>
         <executions>
           <execution>
-            <id>test-start</id>
+            <id>it-start</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>create</goal>
@@ -117,13 +89,21 @@
               <goal>deploy</goal>
               <goal>start</goal>
             </goals>
+            <configuration>
+              <serverName>it</serverName>
+              <deployPackages>dependencies</deployPackages>
+            </configuration>
           </execution>
+
           <execution>
-            <id>test-stop</id>
+            <id>it-stop</id>
             <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
             </goals>
+            <configuration>
+              <serverName>it</serverName>
+            </configuration>
           </execution>
         </executions>
       </plugin>
