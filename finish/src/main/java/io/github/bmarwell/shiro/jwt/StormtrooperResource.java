@@ -78,9 +78,10 @@ public class StormtrooperResource {
   @Path("/{id}")
   @PUT
   @RequiresPermissions("troopers:update")
-  public Stormtrooper updateTrooper(@PathParam("id") String id, Stormtrooper updatedTrooper) throws NotFoundException {
+  public Response updateTrooper(@PathParam("id") String id, Stormtrooper updatedTrooper) throws NotFoundException {
 
-    return trooperDao.updateStormtrooper(id, updatedTrooper);
+    return Response.accepted(trooperDao.updateStormtrooper(id, updatedTrooper))
+        .build();
   }
 
   @Path("/{id}")

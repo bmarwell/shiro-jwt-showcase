@@ -22,6 +22,8 @@ public abstract class AbstractShiroJaxRsIT {
 
   private static final JsonbConfigProvider JSONB_CONFIG_PROVIDER = new JsonbConfigProvider();
 
+  protected static final int INITIAL_COUNT = 10;
+
   static final Client client = ClientBuilder.newClient()
       .register(JSONB_CONFIG_PROVIDER)
       .register(new JsonbJaxrsProvider<>());
@@ -49,7 +51,7 @@ public abstract class AbstractShiroJaxRsIT {
     }
 
     final StormTrooperFactory stormTrooperFactory = new StormTrooperFactory();
-    for (int ii = 0; ii < 10; ii++) {
+    for (int ii = 0; ii < INITIAL_COUNT; ii++) {
       final Response createResponse = usersTarget
           .request(MediaType.APPLICATION_JSON_TYPE)
           .header("Authorization", "Bearer " + token)
@@ -86,8 +88,20 @@ public abstract class AbstractShiroJaxRsIT {
     return (String) entity.get("token");
   }
 
-  public Jsonb jsonb() {
+  protected Jsonb jsonb() {
     return JSONB_CONFIG_PROVIDER.getContext(null);
+  }
+
+
+  protected WebTarget getTroopersTarget(boolean withId) {
+    final String path;
+    if (withId) {
+      path = "troopers/{id}";
+    } else {
+      path = "troopers";
+    }
+
+    return client.target(getAppUri()).path(path);
   }
 
 }
