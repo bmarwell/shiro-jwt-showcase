@@ -51,6 +51,11 @@ public class StormtrooperDaoImpl implements StormtrooperDao {
     STORMTROOPERS.remove(id);
   }
 
+  @Override
+  public void deleteAllStormTroopers() {
+    STORMTROOPERS.clear();
+  }
+
   int generateRandomId() {
     return random.nextInt(10000, 99999);
   }

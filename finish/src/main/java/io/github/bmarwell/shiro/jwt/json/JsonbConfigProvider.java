@@ -19,7 +19,6 @@
 
 package io.github.bmarwell.shiro.jwt.json;
 
-import javax.enterprise.context.Dependent;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
@@ -27,18 +26,23 @@ import javax.json.bind.config.PropertyNamingStrategy;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
-@Dependent
 @Provider
 public class JsonbConfigProvider implements ContextResolver<Jsonb> {
-    @Override
-    public Jsonb getContext(Class<?> type) {
-        JsonbConfig config = getJsonbConfig();
-        return JsonbBuilder.newBuilder().withConfig(config).build();
-    }
 
-    private JsonbConfig getJsonbConfig() {
-        return new JsonbConfig()
-                .withPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES)
-            ;
-    }
+  @Override
+  public Jsonb getContext(Class<?> type) {
+    JsonbConfig config = getJsonbConfig();
+    return JsonbBuilder.newBuilder().withConfig(config).build();
+  }
+
+  private JsonbConfig getJsonbConfig() {
+    final StormtrooperDeserializer stormtrooperDeserializer = new StormtrooperDeserializer();
+    return new JsonbConfig()
+        .withNullValues(true)
+        .withPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES)
+        .withSerializers(stormtrooperDeserializer)
+        .withDeserializers(stormtrooperDeserializer)
+        .withEncoding("UTF-8")
+        ;
+  }
 }

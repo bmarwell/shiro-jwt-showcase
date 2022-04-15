@@ -1,59 +1,93 @@
 package io.github.bmarwell.shiro.jwt.it;
 
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.Collections.singletonList;
 
 import io.github.bmarwell.shiro.jwt.json.JsonbConfigProvider;
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
+import javax.json.bind.Jsonb;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.apache.johnzon.jaxrs.jsonb.jaxrs.JsonbJaxrsProvider;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
 
 public abstract class AbstractShiroJaxRsIT {
 
-  private static final String JWT = "ewogICAgImFsZyI6ICJFUzI1NiIKfQ"
-      + ".ewogICAgImlzcyI6ICJodHRwOi8vbG9jYWxob3N0OjkwODEvIiwKICAgICJzdWIiOiAibWUiLAogICAgImlhdCI6IDE2NDk5MzI0NzQsCiAgICAibmJmIjogMTY0OTkzMjQ3NCwKICAgICJleHAiOiAxNjQ5OTkyNDc0LAogICAgImF1ZCI6ICJzaGlyby1qd3QiLAogICAgInJvbGVzIjogWwogICAgICAgICJhZG1pbiIsCiAgICAgICAgInVzZXIiCiAgICBdCn0"
-      + ".Nkj5mm9F4awnV7AbnyQWq9MNJZt32Vn-USMYWE8jdczK78pAkfaTo0kZCyCAZe9uMGjCZYOYh46VyAZgv86qdA";
+  private static final JsonbConfigProvider JSONB_CONFIG_PROVIDER = new JsonbConfigProvider();
 
-  final Client client = ClientBuilder.newClient()
-      .register(new JsonbConfigProvider())
+  static final Client client = ClientBuilder.newClient()
+      .register(JSONB_CONFIG_PROVIDER)
       .register(new JsonbJaxrsProvider<>());
 
-  protected abstract URI getBaseUri();
-
-  @BeforeEach
-  public void logOut() {
+  static protected URI getLoginUri() {
+    return URI.create("http://localhost:" + System.getProperty("http.port") + "/issuer/login");
   }
 
-
-  @Test
-  public void testGetUsersUnauthenticated() {
-    final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
-    final Response usersResponse = usersTarget.request(MediaType.APPLICATION_JSON_TYPE)
-        .buildGet()
-        .invoke();
-    assertThat(usersResponse.getStatus())
-        .isEqualTo(Status.UNAUTHORIZED.getStatusCode());
+  static protected URI getAppUri() {
+    return URI.create("http://localhost:" + System.getProperty("http.port") + "/finish");
   }
 
-  /**
-   * Test authenticated user with an invalid token (wrong signature/signer).
-   */
-  @Test
-  public void testGetUsersBasicAuthenticated() {
-    final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
-    final Response usersResponse = usersTarget.request(MediaType.APPLICATION_JSON_TYPE)
-        .header("Authorization", "Bearer " + JWT)
-        .buildGet()
-        .invoke();
-    assertThat(usersResponse.getStatus())
-        .isEqualTo(Status.UNAUTHORIZED.getStatusCode());
+  @BeforeAll
+  public static void cleanUp() {
+    final WebTarget usersTarget = client.target(getAppUri()).path("troopers");
+    final String token = getToken(singletonList("admin,root"));
+
+    final Response usersResponse = usersTarget
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .header("Authorization", "Bearer " + token)
+        .delete();
+
+    if (usersResponse.getStatus() != Status.ACCEPTED.getStatusCode()) {
+      throw new IllegalStateException("Unable to set up");
+    }
+
+    final StormTrooperFactory stormTrooperFactory = new StormTrooperFactory();
+    for (int ii = 0; ii < 10; ii++) {
+      final Response createResponse = usersTarget
+          .request(MediaType.APPLICATION_JSON_TYPE)
+          .header("Authorization", "Bearer " + token)
+          .post(Entity.entity(stormTrooperFactory.createRandomTrooper(), MediaType.APPLICATION_JSON_TYPE));
+
+      if (createResponse.getStatus() != Status.ACCEPTED.getStatusCode()) {
+        final String entity = createResponse.readEntity(String.class);
+        throw new IllegalStateException(
+            "Unable to set up: SC = " + createResponse.getStatus() + ".\nResponse from Server:" + entity + "\n");
+      }
+    }
+  }
+
+  public static String getToken(List<String> roles) {
+    final Map<String, String> credentials = Map.of(
+        "username", "shiro",
+        "password", "shiro"
+    );
+    final Invocation.Builder loginInvocation = client.target(getLoginUri())
+        .queryParam("roles", String.join(",", roles))
+        .request(MediaType.APPLICATION_JSON_TYPE);
+    final Response loginResponse = loginInvocation
+        .post(Entity.entity(credentials, MediaType.APPLICATION_JSON_TYPE));
+    final int status = loginResponse.getStatus();
+    if (status != Status.ACCEPTED.getStatusCode()) {
+      final String entity = loginResponse.readEntity(String.class);
+      throw new IllegalStateException(
+          "login: expected status 202 but got " + status + ".\n"
+              + "Entity:\n" + entity + "\n");
+    }
+
+    final Map entity = loginResponse.readEntity(Map.class);
+
+    return (String) entity.get("token");
+  }
+
+  public Jsonb jsonb() {
+    return JSONB_CONFIG_PROVIDER.getContext(null);
   }
 
 }

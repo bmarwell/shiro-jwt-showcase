@@ -15,6 +15,7 @@
     <module>issuer</module>
     <module>start</module>
     <module>finish</module>
+    <module>integration-test</module>
   </modules>
 
   <!-- sorted:
@@ -41,6 +42,7 @@
     <dependency.jakarta.servlet-api.version>4.0.4</dependency.jakarta.servlet-api.version>
     <dependency.jakarta.ws.rs-api.version>2.1.6</dependency.jakarta.ws.rs-api.version>
     <dependency.jakarta.enterprise.cdi-api.version>2.0.2</dependency.jakarta.enterprise.cdi-api.version>
+    <dependency.jakarta.json-api.version>1.1.6</dependency.jakarta.json-api.version>
     <dependency.jakarta.json.bind-api.version>1.0.2</dependency.jakarta.json.bind-api.version>
 
     <!-- 3rd party dependencies -->
@@ -79,6 +81,25 @@
         <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>io.github.bmarwell.shiro</groupId>
+        <artifactId>shiro.jwt.jaxrs.issuer</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bmarwell.shiro</groupId>
+        <artifactId>shiro.jwt.jaxrs.finish</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bmarwell.shiro</groupId>
+        <artifactId>shiro.jwt.jaxrs.finish</artifactId>
+        <version>${project.version}</version>
+        <classifier>classes</classifier>
+        <type>jar</type>
+      </dependency>
 
       <!-- Jakarta EE dependencies -->
       <dependency>
@@ -100,6 +121,13 @@
         <artifactId>jakarta.enterprise.cdi-api</artifactId>
         <version>${dependency.jakarta.enterprise.cdi-api.version}</version>
         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.json</groupId>
+        <artifactId>jakarta.json-api</artifactId>
+        <version>${dependency.jakarta.json-api.version}</version>
+        <scope>test</scope>
       </dependency>
 
       <dependency>
@@ -276,6 +304,7 @@
           <version>${plugin.maven-war-plugin.version}</version>
           <configuration>
             <failOnMissingWebXml>false</failOnMissingWebXml>
+            <attachClasses>true</attachClasses>
           </configuration>
         </plugin>
         <plugin>

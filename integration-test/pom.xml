@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.bmarwell.shiro</groupId>
+    <artifactId>shiro.jwt.jaxrs.root</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>shiro.jwt.jaxrs.integration-test</artifactId>
+  <name>Apache Shiro + mpJWT :: integration test</name>
+  <packaging>jar</packaging>
+
+  <properties>
+    <liberty.var.it.http.port>9080</liberty.var.it.http.port>
+    <liberty.var.issuer.app.filename>shiro.jwt.jaxrs.issuer-${project.version}</liberty.var.issuer.app.filename>
+    <liberty.var.finish.app.filename>shiro.jwt.jaxrs.finish-${project.version}</liberty.var.finish.app.filename>
+  </properties>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.bmarwell.shiro</groupId>
+      <artifactId>shiro.jwt.jaxrs.issuer</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bmarwell.shiro</groupId>
+      <artifactId>shiro.jwt.jaxrs.finish</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bmarwell.shiro</groupId>
+      <artifactId>shiro.jwt.jaxrs.finish</artifactId>
+      <classifier>classes</classifier>
+      <type>jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.json</groupId>
+      <artifactId>jakarta.json-api</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+
+    <!-- IT -->
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-rs-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.johnzon</groupId>
+      <artifactId>johnzon-jsonb</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.openliberty.tools</groupId>
+        <artifactId>liberty-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>it-start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>create</goal>
+              <goal>install-feature</goal>
+              <goal>deploy</goal>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <serverName>it</serverName>
+              <deployPackages>dependencies</deployPackages>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>it-stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+            <configuration>
+              <serverName>it</serverName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <http.port>${liberty.var.default.http.port}</http.port>
+            <war.name>${liberty.var.app.context.root}</war.name>
+            <app.context.root>${liberty.var.app.context.root}</app.context.root>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>jdk17</id>
+      <activation>
+        <jdk>[16,)</jdk>
+      </activation>
+      <properties>
+        <surefire.argLine>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED</surefire.argLine>
+        <failsafe.argLine>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED</failsafe.argLine>
+      </properties>
+    </profile>
+  </profiles>
+
+</project>

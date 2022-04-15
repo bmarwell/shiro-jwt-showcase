@@ -4,6 +4,7 @@
     <feature>jaxrs-2.1</feature>
     <feature>mpConfig-2.0</feature>
     <feature>cdi-2.0</feature>
+    <feature>jsonp-1.1</feature>
     <feature>jsonb-1.0</feature>
     <feature>localConnector-1.0</feature>
   </featureManager>
@@ -11,7 +12,7 @@
   <httpEndpoint
     id="defaultHttpEndpoint"
     host="127.0.0.1"
-    httpPort="${finish.http.port}"
+    httpPort="${it.http.port}"
     httpsPort="-1"
     protocolVersion="http/2"
   >
@@ -58,7 +59,11 @@
     updateTrigger="mbean"
   />
   <webApplication
+    location="${issuer.app.filename}.war"
+    contextRoot="/issuer"
+  />
+  <webApplication
     location="${finish.app.filename}.war"
-    contextRoot="${app.context.root}"
+    contextRoot="/finish"
   />
 </server>

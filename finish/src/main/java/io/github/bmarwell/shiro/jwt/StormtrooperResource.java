@@ -12,6 +12,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -44,6 +45,14 @@ public class StormtrooperResource {
     return trooperDao.listStormtroopers();
   }
 
+  @Path("/")
+  @DELETE
+  @RequiresPermissions("troopers:delete")
+  public Response deleteAllTroopers() {
+    trooperDao.deleteAllStormTroopers();
+    return Response.accepted().build();
+  }
+
   @Path("/{id}")
   @GET
   @RequiresPermissions("troopers:read")
@@ -60,13 +69,14 @@ public class StormtrooperResource {
 
   @POST
   @RequiresPermissions("troopers:create")
-  public Stormtrooper createTrooper(Stormtrooper trooper) {
+  public Response createTrooper(Stormtrooper trooper) {
 
-    return trooperDao.addStormtrooper(trooper);
+    return Response.accepted(trooperDao.addStormtrooper(trooper))
+        .build();
   }
 
   @Path("/{id}")
-  @POST
+  @PUT
   @RequiresPermissions("troopers:update")
   public Stormtrooper updateTrooper(@PathParam("id") String id, Stormtrooper updatedTrooper) throws NotFoundException {
 
@@ -77,6 +87,7 @@ public class StormtrooperResource {
   @DELETE
   @RequiresPermissions("troopers:delete")
   public Response deleteTrooper(@PathParam("id") String id) {
+    trooperDao.deleteStormtrooper(id);
     return Response.accepted().build();
   }
 }
