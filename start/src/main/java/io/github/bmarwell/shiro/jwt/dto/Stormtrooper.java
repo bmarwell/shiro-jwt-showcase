@@ -1,74 +1,30 @@
+/*
+ * Copyright (C) 2022 Benjamin Marwell
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.bmarwell.shiro.jwt.dto;
 
-import java.util.Objects;
-import java.util.StringJoiner;
+import javax.json.bind.annotation.JsonbCreator;
 
-public class Stormtrooper {
+public record Stormtrooper(String id, String planetOfOrigin, String species, String type) {
 
-  private String id;
-
-  private String planetOfOrigin;
-
-  private String species;
-
-  private String type;
-
-  public Stormtrooper() {
+  @JsonbCreator
+  public Stormtrooper {
   }
 
-  public Stormtrooper(String id, String planetOfOrigin, String species, String type) {
-    this.id = id; /* can be null if user-supplied */
-    this.planetOfOrigin = planetOfOrigin;
-    this.species = species;
-    this.type = type;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getPlanetOfOrigin() {
-    return planetOfOrigin;
-  }
-
-  public String getSpecies() {
-    return species;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-
-    Stormtrooper that = (Stormtrooper) other;
-
-    return Objects.equals(this.id, that.id)
-        && planetOfOrigin.equals(that.planetOfOrigin)
-        && species.equals(that.species)
-        && type.equals(that.type);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, planetOfOrigin, species, type);
-  }
-
-  @Override
-  public String toString() {
-    return new StringJoiner(", ", Stormtrooper.class.getSimpleName() + "[", "]")
-        .add("id='" + id + "'")
-        .add("planetOfOrigin='" + planetOfOrigin + "'")
-        .add("species='" + species + "'")
-        .add("type='" + type + "'")
-        .toString();
+  public Stormtrooper(String planetOfOrigin, String species, String type) {
+    this("", planetOfOrigin, species, type);
   }
 }

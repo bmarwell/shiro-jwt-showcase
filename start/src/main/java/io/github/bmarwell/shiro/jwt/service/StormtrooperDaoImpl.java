@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2022 Benjamin Marwell
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.bmarwell.shiro.jwt.service;
 
 import io.github.bmarwell.shiro.jwt.dto.Stormtrooper;
@@ -31,7 +47,7 @@ public class StormtrooperDaoImpl implements StormtrooperDao {
   public Stormtrooper addStormtrooper(Stormtrooper trooper) {
     // make sure *we* assign the number.
     String id = String.format(Locale.ROOT, "FN-%5d", generateRandomId());
-    final Stormtrooper stormtrooper = new Stormtrooper(id, trooper.getPlanetOfOrigin(), trooper.getSpecies(), trooper.getType());
+    final Stormtrooper stormtrooper = new Stormtrooper(id, trooper.planetOfOrigin(), trooper.species(), trooper.type());
     STORMTROOPERS.put(id, stormtrooper);
 
     return STORMTROOPERS.get(id);
@@ -40,7 +56,7 @@ public class StormtrooperDaoImpl implements StormtrooperDao {
   @Override
   public Stormtrooper updateStormtrooper(String id, Stormtrooper updatedTrooper) {
     // make sure the ID matches
-    final Stormtrooper stormtrooper = new Stormtrooper(id, updatedTrooper.getPlanetOfOrigin(), updatedTrooper.getSpecies(), updatedTrooper.getType());
+    final Stormtrooper stormtrooper = new Stormtrooper(id, updatedTrooper.planetOfOrigin(), updatedTrooper.species(), updatedTrooper.type());
     STORMTROOPERS.put(id, stormtrooper);
 
     return STORMTROOPERS.get(id);
@@ -49,6 +65,11 @@ public class StormtrooperDaoImpl implements StormtrooperDao {
   @Override
   public void deleteStormtrooper(String id) {
     STORMTROOPERS.remove(id);
+  }
+
+  @Override
+  public void deleteAllStormTroopers() {
+    STORMTROOPERS.clear();
   }
 
   int generateRandomId() {
