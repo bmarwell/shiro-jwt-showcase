@@ -32,9 +32,9 @@ public class LoginCredentials {
    * This is a big code smell. Do never store your passwords potentially readable and permanently like so.
    */
   @JsonbProperty("password")
-  private char[] password;
+  private String password;
 
-  public static LoginCredentials fromParameters(String username,   String password) {
+  public static LoginCredentials fromParameters(String username, String password) {
     return new LoginCredentials(username, password);
   }
 
@@ -48,14 +48,14 @@ public class LoginCredentials {
       @JsonbProperty("password") String password
   ) {
     this.username = requireNonNull(username);
-    this.password = requireNonNull(password).toCharArray();
+    this.password = requireNonNull(password);
   }
 
   public String getUsername() {
     return username;
   }
 
-  public char[] getPassword() {
+  public String getPassword() {
     return password;
   }
 
@@ -69,13 +69,13 @@ public class LoginCredentials {
     }
     LoginCredentials that = (LoginCredentials) other;
 
-    return username.equals(that.username) && Arrays.equals(password, that.password);
+    return username.equals(that.username) && password.equals(that.password);
   }
 
   @Override
   public int hashCode() {
     int result = Objects.hash(username);
-    result = 31 * result + Arrays.hashCode(password);
+    result = 31 * result + Objects.hash(password);
     return result;
   }
 }

@@ -33,7 +33,7 @@ Additional used tech which is optional / swappable:
 
 == Sub-Projects
 
-Execute them using `./mvnw am -pl <projectdir> liberty:dev`.
+Execute them using `./mvnw -am -pl <projectdir> liberty:dev`.
 
 keystore::
 Common keystore/truststore for the issuer and finish server for validating JWS tokens.
