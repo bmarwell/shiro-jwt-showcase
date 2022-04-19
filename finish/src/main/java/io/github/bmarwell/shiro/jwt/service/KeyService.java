@@ -30,32 +30,27 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.eclipse.microprofile.config.ConfigProvider;
 
-@ApplicationScoped
-public class KeyService implements Serializable {
+public class KeyService implements Serializable, AutoCloseable {
+
+  private static final Logger LOG = Logger.getLogger(KeyService.class.getName());
 
   private static final char[] KEY_PASSWORD = "changeit".toCharArray();
 
-  @Inject
-  private JsonbJwtDeserializer jsonbJwtDeserializer;
+  private final JsonbJwtDeserializer jsonbJwtDeserializer;
 
-  @Inject
-  @ConfigProperty(name="issuer.name")
-  private String issuerName;
+  private final String issuerName;
 
-  public KeyStore getTrustStore() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-    final KeyStore keyStore = new KeystoreLoader().loadTruststore();
-    return requireNonNull(keyStore);
+  public KeyService() {
+    this.jsonbJwtDeserializer = new JsonbJwtDeserializer();
+    this.issuerName = ConfigProvider.getConfig()
+        .getValue("issuer.name", String.class);
   }
 
-  @Produces
-  @Dependent
-  public JwtParser createJwtBuilder() {
+  public JwtParser createJwtParser() {
     return Jwts.parserBuilder()
         .deserializeJsonWith(jsonbJwtDeserializer)
         .setSigningKey(getSigningCertificate().getPublicKey())
@@ -63,6 +58,11 @@ public class KeyService implements Serializable {
         .requireAudience("shiro-jwt")
         .requireIssuer(issuerName)
         .build();
+  }
+
+  protected KeyStore getTrustStore() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
+    final KeyStore keyStore = new KeystoreLoader().loadTruststore();
+    return requireNonNull(keyStore);
   }
 
   private Certificate getSigningCertificate() {
@@ -74,6 +74,15 @@ public class KeyService implements Serializable {
       throw new IllegalStateException(javaSecurityKeyStoreException);
     } catch (IOException javaIoIOException) {
       throw new UncheckedIOException(javaIoIOException);
+    }
+  }
+
+  @Override
+  public void close() {
+    try {
+      this.jsonbJwtDeserializer.destroy();
+    } catch (RuntimeException runtimeException) {
+      LOG.log(Level.WARNING, "Unable to destroy jsonbJwtDeserializer class.", runtimeException);
     }
   }
 }

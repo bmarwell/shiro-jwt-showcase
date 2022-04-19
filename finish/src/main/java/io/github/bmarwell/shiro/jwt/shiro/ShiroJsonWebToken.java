@@ -28,11 +28,14 @@ public class ShiroJsonWebToken implements HostAuthenticationToken {
 
   private final String rawToken;
 
-  public ShiroJsonWebToken(Jws<Claims> jsonWebToken, String rawToken) {
+  private final boolean validated;
+
+  public ShiroJsonWebToken(Jws<Claims> jsonWebToken, String rawToken, boolean isValidated) {
     this.host = jsonWebToken.getBody().getIssuer();
     this.subject = jsonWebToken.getBody().getSubject();
     this.jsonWebToken = jsonWebToken;
     this.rawToken = rawToken;
+    this.validated = isValidated;
   }
 
   @Override
@@ -52,5 +55,14 @@ public class ShiroJsonWebToken implements HostAuthenticationToken {
 
   public String getRawToken() {
     return rawToken;
+  }
+
+  /**
+   * Returns {@code true} if this token was validated upon creation.
+   *
+   * @return {@code true} if this token was validated on creation, {@code false} otherwise.
+   */
+  public boolean isValidated() {
+    return validated;
   }
 }
