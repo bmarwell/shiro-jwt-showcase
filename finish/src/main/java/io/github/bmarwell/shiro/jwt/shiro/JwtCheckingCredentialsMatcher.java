@@ -16,10 +16,10 @@
 
 package io.github.bmarwell.shiro.jwt.shiro;
 
+import io.github.bmarwell.shiro.jwt.service.KeyService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
-import javax.enterprise.inject.spi.CDI;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -36,15 +36,18 @@ public class JwtCheckingCredentialsMatcher implements CredentialsMatcher {
       return false;
     }
 
-    final JwtParser jwtParser = CDI.current().select(JwtParser.class).get();
-    if (!jwtParser.isSigned(credentials.getRawToken())) {
-      return false;
+    try (KeyService ks = new KeyService()) {
+      final JwtParser jwtParser = ks.createJwtParser();
+
+      if (!credentials.isValidated() && !jwtParser.isSigned(credentials.getRawToken())) {
+        return false;
+      }
+
+      final Jws<Claims> reParsedJws = jwtParser.parseClaimsJws(credentials.getRawToken());
+
+      return reParsedJws.getHeader().equals(jws.getHeader())
+          && reParsedJws.getBody().equals(jws.getBody())
+          && reParsedJws.getSignature().equals(jws.getSignature());
     }
-
-    final Jws<Claims> reParsedJws = jwtParser.parseClaimsJws(credentials.getRawToken());
-
-    return reParsedJws.getHeader().equals(jws.getHeader())
-        && reParsedJws.getBody().equals(jws.getBody())
-        && reParsedJws.getSignature().equals(jws.getSignature());
   }
 }
