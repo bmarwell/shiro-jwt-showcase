@@ -61,8 +61,8 @@ public class KeyService implements Serializable, AutoCloseable {
   }
 
   protected KeyStore getTrustStore() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-    final KeyStore keyStore = new KeystoreLoader().loadTruststore();
-    return requireNonNull(keyStore);
+    final KeyStore trustStore = new KeystoreLoader().loadTruststore();
+    return requireNonNull(trustStore);
   }
 
   private Certificate getSigningCertificate() {
