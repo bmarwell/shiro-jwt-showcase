@@ -10,8 +10,9 @@ https://opensource.org/licenses/Apache-2.0[image:https://img.shields.io/badge/Li
 https://renovatebot.com[image:https://img.shields.io/badge/renovate-enabled-brightgreen.svg[Renovate]]
 link:https://openliberty.io/[image:https://img.shields.io/badge/AppServer-Open%20Liberty-blue[AppServer]]
 
-This project is a showcase how you can use https://shiro.apache.org[Apache Shiro] with JWTs (pronounced: jots).
+*Blog article:* https://blog.bmarwell.de/2022/04/26/apache-shiro-jwt-authentication-jjwt.html[Apache Shiro: JWT Realm Authentication with JJWT] 🇬🇧.
 
+This project is a showcase how you can use https://shiro.apache.org[Apache Shiro] with JWTs (pronounced: jots).
 The idea here is to use as few shipped dependencies as possible.
 All dependencies possible should be provided by an JavaEE application server.
 
