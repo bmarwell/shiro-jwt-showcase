@@ -65,7 +65,7 @@
     <dependency.shiro.version>1.9.0</dependency.shiro.version>
     <dependency.cxf-rt-rs-client.version>3.5.2</dependency.cxf-rt-rs-client.version>
     <dependency.jaxb-api.version>2.3.1</dependency.jaxb-api.version>
-    <dependency.jaxb-runtime.version>2.3.6</dependency.jaxb-runtime.version>
+    <dependency.jaxb-runtime.version>3.0.2</dependency.jaxb-runtime.version>
     <dependency.johnzon-jsonb.version>1.2.18</dependency.johnzon-jsonb.version>
 
     <!-- logging -->
