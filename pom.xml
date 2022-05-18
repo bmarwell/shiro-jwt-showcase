@@ -54,6 +54,11 @@
     <issuer.port>9081</issuer.port>
     <liberty.env.ISSUER_NAME>http://localhost:${issuer.port}/</liberty.env.ISSUER_NAME>
 
+    <!-- tomee settings -->
+    <tomee.default.http.port>9080</tomee.default.http.port>
+    <tomee.issuer.port>${issuer.port}</tomee.issuer.port>
+    <tomee.issuer.name>${liberty.env.ISSUER_NAME}</tomee.issuer.name>
+
     <!-- Jakarta + MP dependencies -->
     <dependency.jakarta.servlet-api.version>4.0.4</dependency.jakarta.servlet-api.version>
     <dependency.jakarta.ws.rs-api.version>2.1.6</dependency.jakarta.ws.rs-api.version>
@@ -76,6 +81,7 @@
     <dependency.junit.version>5.8.2</dependency.junit.version>
 
     <!-- maven plugins -->
+    <plugin.tomee-maven-plugin.version>8.0.10</plugin.tomee-maven-plugin.version>
     <plugin.maven-dependency-plugin.version>3.3.0</plugin.maven-dependency-plugin.version>
     <plugin.maven-source-plugin.version>3.2.1</plugin.maven-source-plugin.version>
     <plugin.maven-resources-plugin.version>3.2.0</plugin.maven-resources-plugin.version>

@@ -30,7 +30,7 @@ public class CredentialsValidatorImpl implements CredentialsValidator {
   @Override
   public void validate(LoginCredentials credentials) {
     // all are ok if user == password
-    if (!Arrays.equals(credentials.getUsername().toCharArray(), credentials.getPassword())) {
+    if (!Arrays.equals(credentials.getUsername().toCharArray(), credentials.getPassword().toCharArray())) {
       throw new WebApplicationException("No details given", Status.UNAUTHORIZED);
     }
   }

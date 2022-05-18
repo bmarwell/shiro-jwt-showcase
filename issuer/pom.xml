@@ -58,4 +58,40 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>tomee</id>
+      <properties>
+        <tomee.app.name>${project.artifactId}:${project.version}</tomee.app.name>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.tomee.maven</groupId>
+            <artifactId>tomee-maven-plugin</artifactId>
+            <version>${plugin.tomee-maven-plugin.version}</version>
+            <configuration>
+              <tomeeVersion>8.0.10</tomeeVersion>
+              <tomeeClassifier>microprofile</tomeeClassifier>
+              <debug>false</debug>
+              <tomeeHttpPort>${tomee.issuer.port}</tomeeHttpPort>
+              <tomeeShutdownPort>8000</tomeeShutdownPort>
+              <debugPort>5005</debugPort>
+              <args>-Dfoo=bar</args>
+              <config>${project.basedir}/src/test/tomee/conf</config>
+              <skipCurrentProject>true</skipCurrentProject>
+              <systemVariables>
+                <issuer.name>${tomee.issuer.name}</issuer.name>
+              </systemVariables>
+              <webapps>
+                <webapp>
+                  ${project.groupId}:${tomee.app.name}?name=ROOT
+                </webapp>
+              </webapps>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
