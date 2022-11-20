@@ -69,7 +69,7 @@
     <dependency.johnzon-jsonb.version>1.2.18</dependency.johnzon-jsonb.version>
 
     <!-- logging -->
-    <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
+    <dependency.slf4j.version>2.0.4</dependency.slf4j.version>
 
     <!-- test dependencies -->
     <dependency.assertj.version>3.23.1</dependency.assertj.version>
