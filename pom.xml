@@ -76,7 +76,7 @@
     <dependency.junit.version>5.9.2</dependency.junit.version>
 
     <!-- maven plugins -->
-    <plugin.maven-dependency-plugin.version>3.3.0</plugin.maven-dependency-plugin.version>
+    <plugin.maven-dependency-plugin.version>3.5.0</plugin.maven-dependency-plugin.version>
     <plugin.maven-source-plugin.version>3.2.1</plugin.maven-source-plugin.version>
     <plugin.maven-resources-plugin.version>3.3.0</plugin.maven-resources-plugin.version>
     <plugin.maven-compiler-plugin.version>3.11.0</plugin.maven-compiler-plugin.version>
