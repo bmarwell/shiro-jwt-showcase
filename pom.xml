@@ -82,7 +82,7 @@
     <plugin.maven-compiler-plugin.version>3.11.0</plugin.maven-compiler-plugin.version>
     <plugin.maven-war-plugin.version>3.3.2</plugin.maven-war-plugin.version>
     <plugin.maven-surefire-plugin.version>3.0.0-M9</plugin.maven-surefire-plugin.version>
-    <plugin.maven-failsafe-plugin.version>3.0.0-M9</plugin.maven-failsafe-plugin.version>
+    <plugin.maven-failsafe-plugin.version>3.0.0</plugin.maven-failsafe-plugin.version>
 
     <!-- 3rd party plugins -->
     <plugin.liberty-maven-plugin.version>3.7.1</plugin.liberty-maven-plugin.version>
