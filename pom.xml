@@ -85,7 +85,7 @@
     <plugin.maven-failsafe-plugin.version>3.0.0</plugin.maven-failsafe-plugin.version>
 
     <!-- 3rd party plugins -->
-    <plugin.liberty-maven-plugin.version>3.7.1</plugin.liberty-maven-plugin.version>
+    <plugin.liberty-maven-plugin.version>3.8.2</plugin.liberty-maven-plugin.version>
     <plugin.keytool-maven-plugin.version>1.7</plugin.keytool-maven-plugin.version>
   </properties>
 
