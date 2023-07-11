@@ -73,7 +73,7 @@
 
     <!-- test dependencies -->
     <dependency.assertj.version>3.24.2</dependency.assertj.version>
-    <dependency.junit.version>5.9.2</dependency.junit.version>
+    <dependency.junit.version>5.9.3</dependency.junit.version>
 
     <!-- maven plugins -->
     <plugin.maven-dependency-plugin.version>3.5.0</plugin.maven-dependency-plugin.version>
