@@ -43,9 +43,9 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <!--suppress CheckTagEmptyBody -->
-    <surefire.argLine></surefire.argLine>
+    <surefire.argLine/>
     <!--suppress CheckTagEmptyBody -->
-    <failsafe.argLine></failsafe.argLine>
+    <failsafe.argLine/>
 
     <!-- liberty settings -->
     <liberty.var.default.http.port>9080</liberty.var.default.http.port>
@@ -69,7 +69,7 @@
     <dependency.johnzon-jsonb.version>1.2.21</dependency.johnzon-jsonb.version>
 
     <!-- logging -->
-    <dependency.slf4j.version>2.0.7</dependency.slf4j.version>
+    <dependency.slf4j.version>2.0.9</dependency.slf4j.version>
 
     <!-- test dependencies -->
     <dependency.assertj.version>3.24.2</dependency.assertj.version>
