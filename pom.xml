@@ -43,9 +43,9 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <!--suppress CheckTagEmptyBody -->
-    <surefire.argLine></surefire.argLine>
+    <surefire.argLine/>
     <!--suppress CheckTagEmptyBody -->
-    <failsafe.argLine></failsafe.argLine>
+    <failsafe.argLine/>
 
     <!-- liberty settings -->
     <liberty.var.default.http.port>9080</liberty.var.default.http.port>
