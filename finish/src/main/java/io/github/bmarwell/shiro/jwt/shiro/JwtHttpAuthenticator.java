@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,11 +63,6 @@ public class JwtHttpAuthenticator extends BearerHttpAuthenticationFilter impleme
       LOG.log(Level.WARNING, jwtEx, () -> "Invalid JWT: " + principalsAndCredentials[0]);
       return createBearerToken("", request);
     }
-  }
-
-  @Override
-  protected AuthenticationToken createBearerToken(String token, ServletRequest request) {
-    return new BearerToken(token, request.getRemoteHost());
   }
 
   @Override

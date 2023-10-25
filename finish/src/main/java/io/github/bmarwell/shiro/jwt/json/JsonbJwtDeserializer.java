@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ public class JsonbJwtDeserializer implements Deserializer<Map<String, ?>> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Map<String, ?> deserialize(byte[] bytes) throws DeserializationException {
     try (final var inputStream = new ByteArrayInputStream(bytes)) {
@@ -56,6 +57,7 @@ public class JsonbJwtDeserializer implements Deserializer<Map<String, ?>> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Map<String, ?> deserialize(Reader reader) throws DeserializationException {
     return JSONB.fromJson(reader, Map.class);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;

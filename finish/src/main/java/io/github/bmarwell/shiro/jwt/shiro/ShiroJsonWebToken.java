@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ public class ShiroJsonWebToken implements HostAuthenticationToken {
   private final boolean validated;
 
   public ShiroJsonWebToken(Jws<Claims> jsonWebToken, String rawToken, boolean isValidated) {
-    this.host = jsonWebToken.getBody().getIssuer();
-    this.subject = jsonWebToken.getBody().getSubject();
+    this.host = jsonWebToken.getPayload().getIssuer();
+    this.subject = jsonWebToken.getPayload().getSubject();
     this.jsonWebToken = jsonWebToken;
     this.rawToken = rawToken;
     this.validated = isValidated;
