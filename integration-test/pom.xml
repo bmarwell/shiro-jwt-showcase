@@ -14,10 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -27,15 +24,14 @@
   </parent>
 
   <artifactId>shiro.jwt.jaxrs.integration-test</artifactId>
-  <name>Apache Shiro + mpJWT :: integration test</name>
   <packaging>jar</packaging>
+  <name>Apache Shiro + mpJWT :: integration test</name>
 
   <properties>
     <liberty.var.it.http.port>9080</liberty.var.it.http.port>
     <liberty.var.issuer.app.filename>shiro.jwt.jaxrs.issuer-${project.version}</liberty.var.issuer.app.filename>
     <liberty.var.finish.app.filename>shiro.jwt.jaxrs.finish-${project.version}</liberty.var.finish.app.filename>
   </properties>
-
 
   <dependencies>
     <dependency>
@@ -65,7 +61,6 @@
       <artifactId>jakarta.json-api</artifactId>
       <scope>runtime</scope>
     </dependency>
-
 
     <!-- IT -->
     <dependency>
@@ -98,13 +93,13 @@
         <executions>
           <execution>
             <id>it-start</id>
-            <phase>pre-integration-test</phase>
             <goals>
               <goal>create</goal>
               <goal>install-feature</goal>
               <goal>deploy</goal>
               <goal>start</goal>
             </goals>
+            <phase>pre-integration-test</phase>
             <configuration>
               <serverName>it</serverName>
               <deployPackages>dependencies</deployPackages>
@@ -113,10 +108,10 @@
 
           <execution>
             <id>it-stop</id>
-            <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
             </goals>
+            <phase>post-integration-test</phase>
             <configuration>
               <serverName>it</serverName>
             </configuration>

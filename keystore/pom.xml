@@ -14,10 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -27,8 +24,8 @@
   </parent>
 
   <artifactId>shiro.jwt.jaxrs.keystore</artifactId>
-  <name>Apache Shiro + mpJWT :: keystore</name>
   <packaging>jar</packaging>
+  <name>Apache Shiro + mpJWT :: keystore</name>
 
   <properties>
     <keystore.path>${project.basedir}/src/main/resources/io/github/bmarwell/shiro/keystore/keystore.p12</keystore.path>
@@ -43,10 +40,10 @@
         <executions>
           <execution>
             <id>generate-keypair</id>
-            <phase>generate-resources</phase>
             <goals>
               <goal>generateKeyPair</goal>
             </goals>
+            <phase>generate-resources</phase>
             <configuration>
               <keystore>${keystore.path}</keystore>
               <dname>CN=${liberty.env.ISSUER_NAME}, OU=, O=, L=, S=, C=DE</dname>
@@ -62,10 +59,10 @@
 
           <execution>
             <id>export-public-certificate</id>
-            <phase>generate-resources</phase>
             <goals>
               <goal>exportCertificate</goal>
             </goals>
+            <phase>generate-resources</phase>
             <configuration>
               <keystore>${keystore.path}</keystore>
               <file>${java.io.tmpdir}/issuer.crt</file>
@@ -78,10 +75,10 @@
 
           <execution>
             <id>import-public-certificate</id>
-            <phase>generate-resources</phase>
             <goals>
               <goal>importCertificate</goal>
             </goals>
+            <phase>generate-resources</phase>
             <configuration>
               <keystore>${truststore.path}</keystore>
               <storepass>changeit</storepass>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2023 The shiro-jjwt-showcase team
+ * Copyright (C) $YEAR The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.bmarwell.shiro.jwt.dto;
-
-import javax.json.bind.annotation.JsonbCreator;
-
-public record Stormtrooper(String id, String planetOfOrigin, String species, String type) {
-
-  @JsonbCreator
-  public Stormtrooper {
-  }
-
-  public Stormtrooper(String planetOfOrigin, String species, String type) {
-    this("", planetOfOrigin, species, type);
-  }
-}
