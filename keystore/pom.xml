@@ -51,6 +51,7 @@
               <keystore>${keystore.path}</keystore>
               <dname>CN=${liberty.env.ISSUER_NAME}, OU=, O=, L=, S=, C=DE</dname>
               <keyalg>ec</keyalg>
+              <keysize>256</keysize>
               <storepass>changeit</storepass>
               <keypass>changeit</keypass>
               <alias>issuer</alias>

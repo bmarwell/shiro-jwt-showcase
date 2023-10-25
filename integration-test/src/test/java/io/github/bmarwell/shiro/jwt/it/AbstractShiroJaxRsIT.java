@@ -83,7 +83,8 @@ public abstract class AbstractShiroJaxRsIT {
               + "Entity:\n" + entity + "\n");
     }
 
-    final Map entity = loginResponse.readEntity(Map.class);
+    @SuppressWarnings("unchecked")
+    final Map<String, Object> entity = (Map<String, Object>) loginResponse.readEntity(Map.class);
 
     return (String) entity.get("token");
   }

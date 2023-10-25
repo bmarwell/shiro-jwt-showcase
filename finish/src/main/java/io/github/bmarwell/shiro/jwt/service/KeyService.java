@@ -51,9 +51,9 @@ public class KeyService implements Serializable, AutoCloseable {
   }
 
   public JwtParser createJwtParser() {
-    return Jwts.parserBuilder()
-        .deserializeJsonWith(jsonbJwtDeserializer)
-        .setSigningKey(getSigningCertificate().getPublicKey())
+    return Jwts.parser()
+        .json(jsonbJwtDeserializer)
+        .verifyWith(getSigningCertificate().getPublicKey())
         // see: TokenServiceImpl.java
         .requireAudience("shiro-jwt")
         .requireIssuer(issuerName)

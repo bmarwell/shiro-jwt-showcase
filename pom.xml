@@ -63,6 +63,7 @@
 
     <!-- 3rd party dependencies -->
     <dependency.shiro.version>1.12.0</dependency.shiro.version>
+    <dependency.jjwt.version>0.12.3</dependency.jjwt.version>
     <dependency.cxf-rt-rs-client.version>3.5.5</dependency.cxf-rt-rs-client.version>
     <dependency.jaxb-api.version>2.3.1</dependency.jaxb-api.version>
     <dependency.jaxb-runtime.version>4.0.3</dependency.jaxb-runtime.version>
@@ -175,6 +176,17 @@
         <groupId>org.apache.shiro</groupId>
         <artifactId>shiro-jaxrs</artifactId>
         <version>${dependency.shiro.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-api</artifactId>
+        <version>${dependency.jjwt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-impl</artifactId>
+        <version>${dependency.jjwt.version}</version>
+        <scope>runtime</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>

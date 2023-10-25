@@ -54,7 +54,9 @@ public class JwtHttpAuthenticator extends BearerHttpAuthenticationFilter impleme
 
     // TODO: the verifying should instead (only?) be done in a credentials matcher.
     try {
-      final Jws<Claims> jws = keyService.createJwtParser().parseClaimsJws(principalsAndCredentials[0]);
+      final Jws<Claims> jws = keyService
+          .createJwtParser()
+          .parseSignedClaims(principalsAndCredentials[0]);
 
       return new ShiroJsonWebToken(jws, principalsAndCredentials[0], true);
     } catch (MalformedJwtException | SignatureException jwtEx) {
