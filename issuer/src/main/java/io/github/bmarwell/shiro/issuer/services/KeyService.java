@@ -37,24 +37,24 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class KeyService implements Serializable {
 
-  private static final char[] KEY_PASSWORD = "changeit".toCharArray();
+    private static final char[] KEY_PASSWORD = "changeit".toCharArray();
 
-  @Inject
-  private JsonbSerializer jsonbSerializer;
+    @Inject
+    private JsonbSerializer jsonbSerializer;
 
-  public KeyStore createKeyStore() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-    final KeyStore keyStore = new KeystoreLoader().loadKeystore();
-    return requireNonNull(keyStore);
-  }
+    public KeyStore createKeyStore()
+            throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
+        final KeyStore keyStore = new KeystoreLoader().loadKeystore();
+        return requireNonNull(keyStore);
+    }
 
-  @Produces
-  @Dependent
-  public JwtBuilder createJwtBuilder()
-      throws CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
-    final Key signerKey = createKeyStore().getKey("issuer", KEY_PASSWORD);
+    @Produces
+    @Dependent
+    public JwtBuilder createJwtBuilder()
+            throws CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException,
+                    UnrecoverableKeyException {
+        final Key signerKey = createKeyStore().getKey("issuer", KEY_PASSWORD);
 
-    return Jwts.builder()
-        .json(jsonbSerializer)
-        .signWith(signerKey);
-  }
+        return Jwts.builder().json(jsonbSerializer).signWith(signerKey);
+    }
 }

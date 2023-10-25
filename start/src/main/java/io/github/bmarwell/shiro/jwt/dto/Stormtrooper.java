@@ -19,11 +19,10 @@ import javax.json.bind.annotation.JsonbCreator;
 
 public record Stormtrooper(String id, String planetOfOrigin, String species, String type) {
 
-  @JsonbCreator
-  public Stormtrooper {
-  }
+    @JsonbCreator
+    public Stormtrooper {}
 
-  public Stormtrooper(String planetOfOrigin, String species, String type) {
-    this("", planetOfOrigin, species, type);
-  }
+    public Stormtrooper(String planetOfOrigin, String species, String type) {
+        this("", planetOfOrigin, species, type);
+    }
 }

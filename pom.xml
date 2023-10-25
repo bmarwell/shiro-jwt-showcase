@@ -73,6 +73,9 @@
     <dependency.assertj.version>3.24.2</dependency.assertj.version>
     <dependency.junit.version>5.10.0</dependency.junit.version>
 
+    <!-- plugin dependencies -->
+    <dependency.palantir.version>2.38.0</dependency.palantir.version>
+
     <!-- maven plugins -->
     <plugin.maven-dependency-plugin.version>3.6.1</plugin.maven-dependency-plugin.version>
     <plugin.maven-source-plugin.version>3.3.0</plugin.maven-source-plugin.version>
@@ -242,6 +245,14 @@
         <version>${dependency.assertj.version}</version>
         <scope>test</scope>
       </dependency>
+
+      <!-- plugin dependencies (so renovate can find it) -->
+      <dependency>
+        <groupId>com.palantir.javaformat</groupId>
+        <artifactId>palantir-java-format</artifactId>
+        <version>${dependency.palantir.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -417,6 +428,12 @@
 
           <java>
             <toggleOffOn/>
+
+            <palantirJavaFormat>
+              <version>${dependency.palantir.version}</version>
+              <style>PALANTIR</style>
+            </palantirJavaFormat>
+
             <importOrder/>
             <removeUnusedImports/>
             <formatAnnotations/>

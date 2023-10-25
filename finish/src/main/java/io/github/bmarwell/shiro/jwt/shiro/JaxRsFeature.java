@@ -24,9 +24,8 @@ import org.apache.shiro.web.jaxrs.ShiroFeature;
 @Provider
 public class JaxRsFeature extends ShiroFeature {
 
-  @Override
-  public boolean configure(FeatureContext context) {
-    return super.configure(context);
-  }
-
+    @Override
+    public boolean configure(FeatureContext context) {
+        return super.configure(context);
+    }
 }

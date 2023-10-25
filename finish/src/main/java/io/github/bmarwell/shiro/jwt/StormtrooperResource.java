@@ -15,7 +15,6 @@
  */
 package io.github.bmarwell.shiro.jwt;
 
-
 import io.github.bmarwell.shiro.jwt.dto.Stormtrooper;
 import io.github.bmarwell.shiro.jwt.service.StormtrooperDao;
 import java.util.Collection;
@@ -43,66 +42,64 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 @RequiresUser
 public class StormtrooperResource {
 
-  @Inject
-  private StormtrooperDao trooperDao;
+    @Inject
+    private StormtrooperDao trooperDao;
 
-  public StormtrooperResource() {
-  }
+    public StormtrooperResource() {}
 
-  public StormtrooperResource(StormtrooperDao trooperDao) {
-    this.trooperDao = trooperDao;
-  }
-
-  @GET
-  @RequiresPermissions("troopers:read")
-  public Collection<Stormtrooper> listTroopers() {
-    return trooperDao.listStormtroopers();
-  }
-
-  @Path("/")
-  @DELETE
-  @RequiresPermissions("troopers:delete")
-  public Response deleteAllTroopers() {
-    trooperDao.deleteAllStormTroopers();
-    return Response.accepted().build();
-  }
-
-  @Path("/{id}")
-  @GET
-  @RequiresPermissions("troopers:read")
-  public Optional<Stormtrooper> getTrooper(@PathParam("id") String id) throws NotFoundException {
-
-    Optional<Stormtrooper> stormtrooper = trooperDao.getStormtrooper(id);
-
-    if (stormtrooper.isEmpty()) {
-      throw new NotFoundException();
+    public StormtrooperResource(StormtrooperDao trooperDao) {
+        this.trooperDao = trooperDao;
     }
 
-    return stormtrooper;
-  }
+    @GET
+    @RequiresPermissions("troopers:read")
+    public Collection<Stormtrooper> listTroopers() {
+        return trooperDao.listStormtroopers();
+    }
 
-  @POST
-  @RequiresPermissions("troopers:create")
-  public Response createTrooper(Stormtrooper trooper) {
+    @Path("/")
+    @DELETE
+    @RequiresPermissions("troopers:delete")
+    public Response deleteAllTroopers() {
+        trooperDao.deleteAllStormTroopers();
+        return Response.accepted().build();
+    }
 
-    return Response.accepted(trooperDao.addStormtrooper(trooper))
-        .build();
-  }
+    @Path("/{id}")
+    @GET
+    @RequiresPermissions("troopers:read")
+    public Optional<Stormtrooper> getTrooper(@PathParam("id") String id) throws NotFoundException {
 
-  @Path("/{id}")
-  @PUT
-  @RequiresPermissions("troopers:update")
-  public Response updateTrooper(@PathParam("id") String id, Stormtrooper updatedTrooper) throws NotFoundException {
+        Optional<Stormtrooper> stormtrooper = trooperDao.getStormtrooper(id);
 
-    return Response.accepted(trooperDao.updateStormtrooper(id, updatedTrooper))
-        .build();
-  }
+        if (stormtrooper.isEmpty()) {
+            throw new NotFoundException();
+        }
 
-  @Path("/{id}")
-  @DELETE
-  @RequiresPermissions("troopers:delete")
-  public Response deleteTrooper(@PathParam("id") String id) {
-    trooperDao.deleteStormtrooper(id);
-    return Response.accepted().build();
-  }
+        return stormtrooper;
+    }
+
+    @POST
+    @RequiresPermissions("troopers:create")
+    public Response createTrooper(Stormtrooper trooper) {
+
+        return Response.accepted(trooperDao.addStormtrooper(trooper)).build();
+    }
+
+    @Path("/{id}")
+    @PUT
+    @RequiresPermissions("troopers:update")
+    public Response updateTrooper(@PathParam("id") String id, Stormtrooper updatedTrooper) throws NotFoundException {
+
+        return Response.accepted(trooperDao.updateStormtrooper(id, updatedTrooper))
+                .build();
+    }
+
+    @Path("/{id}")
+    @DELETE
+    @RequiresPermissions("troopers:delete")
+    public Response deleteTrooper(@PathParam("id") String id) {
+        trooperDao.deleteStormtrooper(id);
+        return Response.accepted().build();
+    }
 }

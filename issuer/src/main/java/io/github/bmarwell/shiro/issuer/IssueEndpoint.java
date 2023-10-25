@@ -37,29 +37,25 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class IssueEndpoint {
 
-  /**
-   * In a real app, you would probably use CDI to inject a service from elsewhere (not the same jar).
-   */
-  @Inject
-  private CredentialsValidator validator;
+    /**
+     * In a real app, you would probably use CDI to inject a service from elsewhere (not the same jar).
+     */
+    @Inject
+    private CredentialsValidator validator;
 
-  @Inject
-  private TokenService tokenService;
+    @Inject
+    private TokenService tokenService;
 
-  public IssueEndpoint() {
-    // cdi
-  }
+    public IssueEndpoint() {
+        // cdi
+    }
 
-  @POST
-  @Path("/login")
-  public Response doLogin(LoginCredentials credentials,
-      @QueryParam("roles") @DefaultValue("") String roles) {
-    validator.validate(credentials);
-    String jwt = tokenService.createJwt(credentials, List.of(roles.split(",")));
+    @POST
+    @Path("/login")
+    public Response doLogin(LoginCredentials credentials, @QueryParam("roles") @DefaultValue("") String roles) {
+        validator.validate(credentials);
+        String jwt = tokenService.createJwt(credentials, List.of(roles.split(",")));
 
-    return Response.accepted()
-        .entity(Map.of("token", jwt))
-        .build();
-  }
-
+        return Response.accepted().entity(Map.of("token", jwt)).build();
+    }
 }

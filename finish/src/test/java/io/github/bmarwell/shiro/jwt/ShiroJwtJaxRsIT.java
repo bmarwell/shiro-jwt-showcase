@@ -21,8 +21,9 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ShiroJwtJaxRsIT extends AbstractShiroJaxRsIT {
 
-  @Override
-  protected URI getBaseUri() {
-    return URI.create("http://localhost:" + System.getProperty("http.port") + "/" + System.getProperty("app.context.root"));
-  }
+    @Override
+    protected URI getBaseUri() {
+        return URI.create(
+                "http://localhost:" + System.getProperty("http.port") + "/" + System.getProperty("app.context.root"));
+    }
 }
