@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import io.github.bmarwell.shiro.jwt.service.KeyService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
+import java.util.Arrays;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -43,11 +44,11 @@ public class JwtCheckingCredentialsMatcher implements CredentialsMatcher {
         return false;
       }
 
-      final Jws<Claims> reParsedJws = jwtParser.parseClaimsJws(credentials.getRawToken());
+      final Jws<Claims> reParsedJws = jwtParser.parseSignedClaims(credentials.getRawToken());
 
       return reParsedJws.getHeader().equals(jws.getHeader())
-          && reParsedJws.getBody().equals(jws.getBody())
-          && reParsedJws.getSignature().equals(jws.getSignature());
+          && reParsedJws.getPayload().equals(jws.getPayload())
+          && Arrays.equals(reParsedJws.getDigest(), jws.getDigest());
     }
   }
 }

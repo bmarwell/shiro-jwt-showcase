@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,8 +59,10 @@ public class JwtRealm extends AuthorizingRealm {
   @Override
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
     final ShiroJsonWebToken jsonWebToken = jwtThreadToken.get();
-    final Claims claims = jsonWebToken.getCredentials().getBody();
-    final List<String> roles = Optional.ofNullable(claims.get("roles", List.class)).orElse(List.<String>of());
+    final Claims claims = jsonWebToken.getCredentials().getPayload();
+    @SuppressWarnings("unchecked")
+    List<String> rolesList = (List<String>) claims.get("roles", List.class);
+    final List<String> roles = Optional.ofNullable(rolesList).orElseGet(List::of);
 
     return new SimpleAuthorizationInfo(Set.copyOf(roles));
   }

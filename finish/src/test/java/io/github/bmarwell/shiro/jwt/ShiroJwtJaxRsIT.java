@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package io.github.bmarwell.shiro.jwt;
 import java.net.URI;
 import org.junit.jupiter.api.TestInstance;
 
-@SuppressWarnings("NewClassNamingConvention")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ShiroJwtJaxRsIT extends AbstractShiroJaxRsIT {
 

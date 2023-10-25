@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class StormtrooperJsonTest {
     final String stormtrooperJson = JSONB.toJson(stormtrooper);
 
     // then
-    final Map map = JSONB.fromJson(stormtrooperJson, Map.class);
+    final Map<String, Object> map = (Map<String, Object>) JSONB.fromJson(stormtrooperJson, Map.class);
     Assertions.assertThat(map)
         .containsEntry("id", "")
         .containsEntry("planet_of_origin", "Terra")

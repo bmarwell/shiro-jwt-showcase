@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Benjamin Marwell
+ * Copyright (C) 2022 The shiro-jjwt-showcase team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,12 +43,12 @@ public class TokenServiceImpl implements TokenService {
     final java.util.Date expires = Date.from(Instant.now().plusSeconds(60_000L));
 
     return jwtBuilder
-        .setIssuer(issuerName)
-        .setSubject(credentials.getUsername())
-        .setIssuedAt(from)
-        .setNotBefore(from)
-        .setExpiration(expires)
-        .setAudience("shiro-jwt")
+        .issuer(issuerName)
+        .subject(credentials.getUsername())
+        .issuedAt(from)
+        .notBefore(from)
+        .expiration(expires)
+        .audience().add("shiro-jwt").and()
         .claim("roles", roles)
         .compact();
   }
