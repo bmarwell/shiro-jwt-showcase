@@ -14,17 +14,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.bmarwell.shiro</groupId>
   <artifactId>shiro.jwt.jaxrs.root</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <name>Apache Shiro + mpJWT</name>
   <packaging>pom</packaging>
+  <name>Apache Shiro + mpJWT</name>
 
   <modules>
     <module>keystore</module>
@@ -88,6 +85,7 @@
     <!-- 3rd party plugins -->
     <plugin.liberty-maven-plugin.version>3.9</plugin.liberty-maven-plugin.version>
     <plugin.keytool-maven-plugin.version>1.7</plugin.keytool-maven-plugin.version>
+    <plugin.spotless.version>2.40.0</plugin.spotless.version>
   </properties>
 
   <dependencyManagement>
@@ -372,6 +370,12 @@
           <artifactId>keytool-maven-plugin</artifactId>
           <version>${plugin.keytool-maven-plugin.version}</version>
         </plugin>
+
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${plugin.spotless.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -388,6 +392,65 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <configuration>
+          <ratchetFrom>origin/main</ratchetFrom>
+          <formats>
+            <format>
+              <includes>
+                <include>*.md</include>
+                <include>*.adoc</include>
+                <include>.gitignore</include>
+              </includes>
+              <trimTrailingWhitespace/>
+              <endWithNewline/>
+              <indent>
+                <tabs>false</tabs>
+                <spaces>true</spaces>
+                <spacesPerTab>2</spacesPerTab>
+              </indent>
+            </format>
+          </formats>
+
+          <java>
+            <toggleOffOn/>
+            <importOrder/>
+            <removeUnusedImports/>
+            <formatAnnotations/>
+            <licenseHeader>
+              <!--suppress MavenModelInspection -->
+              <file>${maven.multiModuleProjectDirectory}/build/license-header.txt</file>
+            </licenseHeader>
+          </java>
+
+          <pom>
+            <!-- These are the defaults, you can override if you want -->
+            <includes>
+              <include>pom.xml</include>
+            </includes>
+
+            <sortPom>
+              <expandEmptyElements>false</expandEmptyElements>
+              <nrOfIndentSpace>2</nrOfIndentSpace>
+              <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+            </sortPom>
+          </pom>
+        </configuration>
+
+        <executions>
+          <execution>
+            <goals>
+              <goal>apply</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+
+      </plugin>
+
     </plugins>
   </build>
 
