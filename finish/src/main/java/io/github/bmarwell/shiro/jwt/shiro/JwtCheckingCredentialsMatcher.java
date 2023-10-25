@@ -26,28 +26,28 @@ import org.apache.shiro.authc.credential.CredentialsMatcher;
 
 public class JwtCheckingCredentialsMatcher implements CredentialsMatcher {
 
-  @Override
-  public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
-    final ShiroJsonWebToken credentials = (ShiroJsonWebToken) info.getCredentials();
-    final Jws<Claims> jws = credentials.getCredentials();
-    final Object principal = token.getPrincipal();
+    @Override
+    public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
+        final ShiroJsonWebToken credentials = (ShiroJsonWebToken) info.getCredentials();
+        final Jws<Claims> jws = credentials.getCredentials();
+        final Object principal = token.getPrincipal();
 
-    if (!principal.equals(credentials.getPrincipal())) {
-      return false;
+        if (!principal.equals(credentials.getPrincipal())) {
+            return false;
+        }
+
+        try (KeyService ks = new KeyService()) {
+            final JwtParser jwtParser = ks.createJwtParser();
+
+            if (!credentials.isValidated() && !jwtParser.isSigned(credentials.getRawToken())) {
+                return false;
+            }
+
+            final Jws<Claims> reParsedJws = jwtParser.parseSignedClaims(credentials.getRawToken());
+
+            return reParsedJws.getHeader().equals(jws.getHeader())
+                    && reParsedJws.getPayload().equals(jws.getPayload())
+                    && Arrays.equals(reParsedJws.getDigest(), jws.getDigest());
+        }
     }
-
-    try (KeyService ks = new KeyService()) {
-      final JwtParser jwtParser = ks.createJwtParser();
-
-      if (!credentials.isValidated() && !jwtParser.isSigned(credentials.getRawToken())) {
-        return false;
-      }
-
-      final Jws<Claims> reParsedJws = jwtParser.parseSignedClaims(credentials.getRawToken());
-
-      return reParsedJws.getHeader().equals(jws.getHeader())
-          && reParsedJws.getPayload().equals(jws.getPayload())
-          && Arrays.equals(reParsedJws.getDigest(), jws.getDigest());
-    }
-  }
 }

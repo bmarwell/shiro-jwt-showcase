@@ -30,40 +30,38 @@ import org.apache.shiro.subject.PrincipalCollection;
 
 public class JwtRealm extends AuthorizingRealm {
 
-  private static final ThreadLocal<ShiroJsonWebToken> jwtThreadToken = new ThreadLocal<>();
+    private static final ThreadLocal<ShiroJsonWebToken> jwtThreadToken = new ThreadLocal<>();
 
-  public JwtRealm() {
-    //
-  }
+    public JwtRealm() {
+        //
+    }
 
-  @Override
-  public String getName() {
-    return "jwt";
-  }
+    @Override
+    public String getName() {
+        return "jwt";
+    }
 
-  @Override
-  public Class<?> getAuthenticationTokenClass() {
-    return ShiroJsonWebToken.class;
-  }
+    @Override
+    public Class<?> getAuthenticationTokenClass() {
+        return ShiroJsonWebToken.class;
+    }
 
-  @Override
-  protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
-      throws AuthenticationException {
-    ShiroJsonWebToken jwt = (ShiroJsonWebToken) token;
-    jwtThreadToken.set(jwt);
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        ShiroJsonWebToken jwt = (ShiroJsonWebToken) token;
+        jwtThreadToken.set(jwt);
 
-    return new SimpleAuthenticationInfo(jwt.getPrincipal(), jwt, getName());
-  }
+        return new SimpleAuthenticationInfo(jwt.getPrincipal(), jwt, getName());
+    }
 
-  @Override
-  protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-    final ShiroJsonWebToken jsonWebToken = jwtThreadToken.get();
-    final Claims claims = jsonWebToken.getCredentials().getPayload();
-    @SuppressWarnings("unchecked")
-    List<String> rolesList = (List<String>) claims.get("roles", List.class);
-    final List<String> roles = Optional.ofNullable(rolesList).orElseGet(List::of);
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        final ShiroJsonWebToken jsonWebToken = jwtThreadToken.get();
+        final Claims claims = jsonWebToken.getCredentials().getPayload();
+        @SuppressWarnings("unchecked")
+        List<String> rolesList = (List<String>) claims.get("roles", List.class);
+        final List<String> roles = Optional.ofNullable(rolesList).orElseGet(List::of);
 
-    return new SimpleAuthorizationInfo(Set.copyOf(roles));
-  }
-
+        return new SimpleAuthorizationInfo(Set.copyOf(roles));
+    }
 }

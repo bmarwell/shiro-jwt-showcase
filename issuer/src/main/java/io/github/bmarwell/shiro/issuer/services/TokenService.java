@@ -21,5 +21,5 @@ import java.util.List;
 
 public interface TokenService extends Serializable {
 
-  String createJwt(LoginCredentials credentials, List<String> roles);
+    String createJwt(LoginCredentials credentials, List<String> roles);
 }

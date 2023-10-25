@@ -25,29 +25,28 @@ import org.junit.jupiter.api.Test;
 
 public class StormtrooperJsonTest {
 
-  private final JsonbConfigProvider jsonbProvider = new JsonbConfigProvider();
+    private final JsonbConfigProvider jsonbProvider = new JsonbConfigProvider();
 
-  private final Jsonb JSONB = jsonbProvider.getContext(Stormtrooper.class);
+    private final Jsonb JSONB = jsonbProvider.getContext(Stormtrooper.class);
 
-  @AfterEach
-  public void closeJson() throws Exception {
-    JSONB.close();
-  }
+    @AfterEach
+    public void closeJson() throws Exception {
+        JSONB.close();
+    }
 
-  @SuppressWarnings("unchecked")
-  @Test
-  public void toJson() {
-    final Stormtrooper stormtrooper = new Stormtrooper("", "Terra", "Human", "Space");
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJson() {
+        final Stormtrooper stormtrooper = new Stormtrooper("", "Terra", "Human", "Space");
 
-    final String stormtrooperJson = JSONB.toJson(stormtrooper);
+        final String stormtrooperJson = JSONB.toJson(stormtrooper);
 
-    // then
-    final Map<String, Object> map = (Map<String, Object>) JSONB.fromJson(stormtrooperJson, Map.class);
-    Assertions.assertThat(map)
-        .containsEntry("id", "")
-        .containsEntry("planet_of_origin", "Terra")
-        .containsEntry("species", "Human")
-        .containsEntry("type", "Space")
-    ;
-  }
+        // then
+        final Map<String, Object> map = (Map<String, Object>) JSONB.fromJson(stormtrooperJson, Map.class);
+        Assertions.assertThat(map)
+                .containsEntry("id", "")
+                .containsEntry("planet_of_origin", "Terra")
+                .containsEntry("species", "Human")
+                .containsEntry("type", "Space");
+    }
 }

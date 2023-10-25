@@ -29,42 +29,40 @@ import org.apache.shiro.web.filter.authc.BearerHttpAuthenticationFilter;
 
 public class JwtHttpAuthenticator extends BearerHttpAuthenticationFilter implements AutoCloseable {
 
-  private static final Logger LOG = Logger.getLogger(JwtHttpAuthenticator.class.getName());
+    private static final Logger LOG = Logger.getLogger(JwtHttpAuthenticator.class.getName());
 
-  private final KeyService keyService;
+    private final KeyService keyService;
 
-  public JwtHttpAuthenticator() {
-    super();
-    this.keyService = new KeyService();
-  }
-
-  @Override
-  protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
-    String authorizationHeaderContent = getAuthzHeader(request);
-    if (authorizationHeaderContent == null || authorizationHeaderContent.isBlank()) {
-      // Create an empty authentication token since there is no
-      // Authorization header.
-      return createBearerToken("", request);
+    public JwtHttpAuthenticator() {
+        super();
+        this.keyService = new KeyService();
     }
 
-    LOG.log(Level.FINER, "Attempting to execute login with auth header");
-    final String[] principalsAndCredentials = getPrincipalsAndCredentials(authorizationHeaderContent, request);
+    @Override
+    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
+        String authorizationHeaderContent = getAuthzHeader(request);
+        if (authorizationHeaderContent == null || authorizationHeaderContent.isBlank()) {
+            // Create an empty authentication token since there is no
+            // Authorization header.
+            return createBearerToken("", request);
+        }
 
-    // TODO: the verifying should instead (only?) be done in a credentials matcher.
-    try {
-      final Jws<Claims> jws = keyService
-          .createJwtParser()
-          .parseSignedClaims(principalsAndCredentials[0]);
+        LOG.log(Level.FINER, "Attempting to execute login with auth header");
+        final String[] principalsAndCredentials = getPrincipalsAndCredentials(authorizationHeaderContent, request);
 
-      return new ShiroJsonWebToken(jws, principalsAndCredentials[0], true);
-    } catch (MalformedJwtException | SignatureException jwtEx) {
-      LOG.log(Level.WARNING, jwtEx, () -> "Invalid JWT: " + principalsAndCredentials[0]);
-      return createBearerToken("", request);
+        // TODO: the verifying should instead (only?) be done in a credentials matcher.
+        try {
+            final Jws<Claims> jws = keyService.createJwtParser().parseSignedClaims(principalsAndCredentials[0]);
+
+            return new ShiroJsonWebToken(jws, principalsAndCredentials[0], true);
+        } catch (MalformedJwtException | SignatureException jwtEx) {
+            LOG.log(Level.WARNING, jwtEx, () -> "Invalid JWT: " + principalsAndCredentials[0]);
+            return createBearerToken("", request);
+        }
     }
-  }
 
-  @Override
-  public void close() {
-    this.keyService.close();
-  }
+    @Override
+    public void close() {
+        this.keyService.close();
+    }
 }

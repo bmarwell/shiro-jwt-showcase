@@ -20,5 +20,5 @@ import java.io.Serializable;
 
 public interface CredentialsValidator extends Serializable {
 
-  void validate(LoginCredentials credentials);
+    void validate(LoginCredentials credentials);
 }

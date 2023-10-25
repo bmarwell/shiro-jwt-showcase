@@ -29,26 +29,28 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class TokenServiceImpl implements TokenService {
 
-  @Inject
-  private JwtBuilder jwtBuilder;
+    @Inject
+    private JwtBuilder jwtBuilder;
 
-  @Inject
-  @ConfigProperty(name="issuer.name")
-  String issuerName;
+    @Inject
+    @ConfigProperty(name = "issuer.name")
+    String issuerName;
 
-  @Override
-  public String createJwt(LoginCredentials credentials, List<String> roles) {
-    final java.util.Date from = Date.from(Instant.now());
-    final java.util.Date expires = Date.from(Instant.now().plusSeconds(60_000L));
+    @Override
+    public String createJwt(LoginCredentials credentials, List<String> roles) {
+        final java.util.Date from = Date.from(Instant.now());
+        final java.util.Date expires = Date.from(Instant.now().plusSeconds(60_000L));
 
-    return jwtBuilder
-        .issuer(issuerName)
-        .subject(credentials.getUsername())
-        .issuedAt(from)
-        .notBefore(from)
-        .expiration(expires)
-        .audience().add("shiro-jwt").and()
-        .claim("roles", roles)
-        .compact();
-  }
+        return jwtBuilder
+                .issuer(issuerName)
+                .subject(credentials.getUsername())
+                .issuedAt(from)
+                .notBefore(from)
+                .expiration(expires)
+                .audience()
+                .add("shiro-jwt")
+                .and()
+                .claim("roles", roles)
+                .compact();
+    }
 }

@@ -15,7 +15,6 @@
  */
 package io.github.bmarwell.shiro.jwt;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.github.bmarwell.shiro.jwt.json.JsonbConfigProvider;
@@ -32,43 +31,37 @@ import org.junit.jupiter.api.Test;
 
 public abstract class AbstractShiroJaxRsIT {
 
-  private static final String JWT = "ewogICAgImFsZyI6ICJFUzI1NiIKfQ"
-      + ".ewogICAgImlzcyI6ICJodHRwOi8vbG9jYWxob3N0OjkwODEvIiwKICAgICJzdWIiOiAibWUiLAogICAgImlhdCI6IDE2NDk5MzI0NzQsCiAgICAibmJmIjogMTY0OTkzMjQ3NCwKICAgICJleHAiOiAxNjQ5OTkyNDc0LAogICAgImF1ZCI6ICJzaGlyby1qd3QiLAogICAgInJvbGVzIjogWwogICAgICAgICJhZG1pbiIsCiAgICAgICAgInVzZXIiCiAgICBdCn0"
-      + ".Nkj5mm9F4awnV7AbnyQWq9MNJZt32Vn-USMYWE8jdczK78pAkfaTo0kZCyCAZe9uMGjCZYOYh46VyAZgv86qdA";
+    private static final String JWT = "ewogICAgImFsZyI6ICJFUzI1NiIKfQ"
+            + ".ewogICAgImlzcyI6ICJodHRwOi8vbG9jYWxob3N0OjkwODEvIiwKICAgICJzdWIiOiAibWUiLAogICAgImlhdCI6IDE2NDk5MzI0NzQsCiAgICAibmJmIjogMTY0OTkzMjQ3NCwKICAgICJleHAiOiAxNjQ5OTkyNDc0LAogICAgImF1ZCI6ICJzaGlyby1qd3QiLAogICAgInJvbGVzIjogWwogICAgICAgICJhZG1pbiIsCiAgICAgICAgInVzZXIiCiAgICBdCn0"
+            + ".Nkj5mm9F4awnV7AbnyQWq9MNJZt32Vn-USMYWE8jdczK78pAkfaTo0kZCyCAZe9uMGjCZYOYh46VyAZgv86qdA";
 
-  final Client client = ClientBuilder.newClient()
-      .register(new JsonbConfigProvider())
-      .register(new JsonbJaxrsProvider<>());
+    final Client client =
+            ClientBuilder.newClient().register(new JsonbConfigProvider()).register(new JsonbJaxrsProvider<>());
 
-  protected abstract URI getBaseUri();
+    protected abstract URI getBaseUri();
 
-  @BeforeEach
-  public void logOut() {
-  }
+    @BeforeEach
+    public void logOut() {}
 
+    @Test
+    public void testGetUsersUnauthenticated() {
+        final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
+        final Response usersResponse =
+                usersTarget.request(MediaType.APPLICATION_JSON_TYPE).buildGet().invoke();
+        assertThat(usersResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
+    }
 
-  @Test
-  public void testGetUsersUnauthenticated() {
-    final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
-    final Response usersResponse = usersTarget.request(MediaType.APPLICATION_JSON_TYPE)
-        .buildGet()
-        .invoke();
-    assertThat(usersResponse.getStatus())
-        .isEqualTo(Status.UNAUTHORIZED.getStatusCode());
-  }
-
-  /**
-   * Test authenticated user with an invalid token (wrong signature/signer).
-   */
-  @Test
-  public void testGetUsersBasicAuthenticated() {
-    final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
-    final Response usersResponse = usersTarget.request(MediaType.APPLICATION_JSON_TYPE)
-        .header("Authorization", "Bearer " + JWT)
-        .buildGet()
-        .invoke();
-    assertThat(usersResponse.getStatus())
-        .isEqualTo(Status.UNAUTHORIZED.getStatusCode());
-  }
-
+    /**
+     * Test authenticated user with an invalid token (wrong signature/signer).
+     */
+    @Test
+    public void testGetUsersBasicAuthenticated() {
+        final WebTarget usersTarget = client.target(getBaseUri()).path("troopers");
+        final Response usersResponse = usersTarget
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", "Bearer " + JWT)
+                .buildGet()
+                .invoke();
+        assertThat(usersResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
+    }
 }

@@ -23,7 +23,7 @@ import org.apache.shiro.web.env.EnvironmentLoaderListener;
 @WebListener
 public class EnvListener extends EnvironmentLoaderListener {
 
-  public EnvListener() {
-    super();
-  }
+    public EnvListener() {
+        super();
+    }
 }

@@ -28,50 +28,52 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class StormtrooperDaoImpl implements StormtrooperDao {
 
-  private static final Map<String, Stormtrooper> STORMTROOPERS = new ConcurrentHashMap<>();
+    private static final Map<String, Stormtrooper> STORMTROOPERS = new ConcurrentHashMap<>();
 
-  private static final Random random = new SecureRandom();
+    private static final Random random = new SecureRandom();
 
-  @Override
-  public Collection<Stormtrooper> listStormtroopers() {
-    return STORMTROOPERS.values();
-  }
+    @Override
+    public Collection<Stormtrooper> listStormtroopers() {
+        return STORMTROOPERS.values();
+    }
 
-  @Override
-  public Optional<Stormtrooper> getStormtrooper(String id) {
-    return Optional.ofNullable(STORMTROOPERS.get(id));
-  }
+    @Override
+    public Optional<Stormtrooper> getStormtrooper(String id) {
+        return Optional.ofNullable(STORMTROOPERS.get(id));
+    }
 
-  @Override
-  public Stormtrooper addStormtrooper(Stormtrooper trooper) {
-    // make sure *we* assign the number.
-    String id = String.format(Locale.ROOT, "FN-%5d", generateRandomId());
-    final Stormtrooper stormtrooper = new Stormtrooper(id, trooper.planetOfOrigin(), trooper.species(), trooper.type());
-    STORMTROOPERS.put(id, stormtrooper);
+    @Override
+    public Stormtrooper addStormtrooper(Stormtrooper trooper) {
+        // make sure *we* assign the number.
+        String id = String.format(Locale.ROOT, "FN-%5d", generateRandomId());
+        final Stormtrooper stormtrooper =
+                new Stormtrooper(id, trooper.planetOfOrigin(), trooper.species(), trooper.type());
+        STORMTROOPERS.put(id, stormtrooper);
 
-    return STORMTROOPERS.get(id);
-  }
+        return STORMTROOPERS.get(id);
+    }
 
-  @Override
-  public Stormtrooper updateStormtrooper(String id, Stormtrooper updatedTrooper) {
-    // make sure the ID matches
-    final Stormtrooper stormtrooper = new Stormtrooper(id, updatedTrooper.planetOfOrigin(), updatedTrooper.species(), updatedTrooper.type());
-    STORMTROOPERS.put(id, stormtrooper);
+    @Override
+    public Stormtrooper updateStormtrooper(String id, Stormtrooper updatedTrooper) {
+        // make sure the ID matches
+        final Stormtrooper stormtrooper =
+                new Stormtrooper(id, updatedTrooper.planetOfOrigin(), updatedTrooper.species(), updatedTrooper.type());
+        STORMTROOPERS.put(id, stormtrooper);
 
-    return STORMTROOPERS.get(id);
-  }
+        return STORMTROOPERS.get(id);
+    }
 
-  @Override
-  public void deleteStormtrooper(String id) {
-    STORMTROOPERS.remove(id);
-  }
+    @Override
+    public void deleteStormtrooper(String id) {
+        STORMTROOPERS.remove(id);
+    }
 
-  @Override
-  public void deleteAllStormTroopers() {
-    STORMTROOPERS.clear();
-  }
+    @Override
+    public void deleteAllStormTroopers() {
+        STORMTROOPERS.clear();
+    }
 
-  int generateRandomId() {
-    return random.nextInt(10000, 99999);
-  }
+    int generateRandomId() {
+        return random.nextInt(10000, 99999);
+    }
 }

@@ -32,34 +32,32 @@ import javax.json.bind.JsonbConfig;
 @ApplicationScoped
 public class JsonbJwtDeserializer implements Deserializer<Map<String, ?>> {
 
-  private static final JsonbConfig JSONB_CONFIG = new JsonbConfig()
-      .withFormatting(Boolean.TRUE);
+    private static final JsonbConfig JSONB_CONFIG = new JsonbConfig().withFormatting(Boolean.TRUE);
 
-  private static final Jsonb JSONB = JsonbBuilder.create(JSONB_CONFIG);
+    private static final Jsonb JSONB = JsonbBuilder.create(JSONB_CONFIG);
 
-  @PreDestroy
-  public void destroy() {
-    try {
-      JSONB.close();
-    } catch (Exception javaLangException) {
-      throw new IllegalStateException(javaLangException);
+    @PreDestroy
+    public void destroy() {
+        try {
+            JSONB.close();
+        } catch (Exception javaLangException) {
+            throw new IllegalStateException(javaLangException);
+        }
     }
-  }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public Map<String, ?> deserialize(byte[] bytes) throws DeserializationException {
-    try (final var inputStream = new ByteArrayInputStream(bytes)) {
-      return JSONB.fromJson(inputStream, Map.class);
-    } catch (IOException javaIoIOException) {
-      throw new DeserializationException(javaIoIOException.getMessage());
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, ?> deserialize(byte[] bytes) throws DeserializationException {
+        try (final var inputStream = new ByteArrayInputStream(bytes)) {
+            return JSONB.fromJson(inputStream, Map.class);
+        } catch (IOException javaIoIOException) {
+            throw new DeserializationException(javaIoIOException.getMessage());
+        }
     }
-  }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public Map<String, ?> deserialize(Reader reader) throws DeserializationException {
-    return JSONB.fromJson(reader, Map.class);
-  }
-
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, ?> deserialize(Reader reader) throws DeserializationException {
+        return JSONB.fromJson(reader, Map.class);
+    }
 }

@@ -25,20 +25,19 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class JsonbConfigProvider implements ContextResolver<Jsonb> {
 
-  @Override
-  public Jsonb getContext(Class<?> type) {
-    JsonbConfig config = getJsonbConfig();
-    return JsonbBuilder.newBuilder().withConfig(config).build();
-  }
+    @Override
+    public Jsonb getContext(Class<?> type) {
+        JsonbConfig config = getJsonbConfig();
+        return JsonbBuilder.newBuilder().withConfig(config).build();
+    }
 
-  private JsonbConfig getJsonbConfig() {
-    final StormtrooperDeserializer stormtrooperDeserializer = new StormtrooperDeserializer();
-    return new JsonbConfig()
-        .withNullValues(true)
-        .withPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES)
-        .withSerializers(stormtrooperDeserializer)
-        .withDeserializers(stormtrooperDeserializer)
-        .withEncoding("UTF-8")
-        ;
-  }
+    private JsonbConfig getJsonbConfig() {
+        final StormtrooperDeserializer stormtrooperDeserializer = new StormtrooperDeserializer();
+        return new JsonbConfig()
+                .withNullValues(true)
+                .withPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES)
+                .withSerializers(stormtrooperDeserializer)
+                .withDeserializers(stormtrooperDeserializer)
+                .withEncoding("UTF-8");
+    }
 }

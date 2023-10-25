@@ -35,53 +35,53 @@ import org.eclipse.microprofile.config.ConfigProvider;
 
 public class KeyService implements Serializable, AutoCloseable {
 
-  private static final Logger LOG = Logger.getLogger(KeyService.class.getName());
+    private static final Logger LOG = Logger.getLogger(KeyService.class.getName());
 
-  private static final char[] KEY_PASSWORD = "changeit".toCharArray();
+    private static final char[] KEY_PASSWORD = "changeit".toCharArray();
 
-  private final JsonbJwtDeserializer jsonbJwtDeserializer;
+    private final JsonbJwtDeserializer jsonbJwtDeserializer;
 
-  private final String issuerName;
+    private final String issuerName;
 
-  public KeyService() {
-    this.jsonbJwtDeserializer = new JsonbJwtDeserializer();
-    this.issuerName = ConfigProvider.getConfig()
-        .getValue("issuer.name", String.class);
-  }
-
-  public JwtParser createJwtParser() {
-    return Jwts.parser()
-        .json(jsonbJwtDeserializer)
-        .verifyWith(getSigningCertificate().getPublicKey())
-        // see: TokenServiceImpl.java
-        .requireAudience("shiro-jwt")
-        .requireIssuer(issuerName)
-        .build();
-  }
-
-  protected KeyStore getTrustStore() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-    final KeyStore trustStore = new KeystoreLoader().loadTruststore();
-    return requireNonNull(trustStore);
-  }
-
-  private Certificate getSigningCertificate() {
-    try {
-      final Certificate issuer = getTrustStore().getCertificate("issuer");
-
-      return requireNonNull(issuer);
-    } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException javaSecurityKeyStoreException) {
-      throw new IllegalStateException(javaSecurityKeyStoreException);
-    } catch (IOException javaIoIOException) {
-      throw new UncheckedIOException(javaIoIOException);
+    public KeyService() {
+        this.jsonbJwtDeserializer = new JsonbJwtDeserializer();
+        this.issuerName = ConfigProvider.getConfig().getValue("issuer.name", String.class);
     }
-  }
 
-  @Override
-  public void close() {
-    try {
-      this.jsonbJwtDeserializer.destroy();
-    } catch (RuntimeException runtimeException) {
-      LOG.log(Level.WARNING, "Unable to destroy jsonbJwtDeserializer class.", runtimeException);
+    public JwtParser createJwtParser() {
+        return Jwts.parser()
+                .json(jsonbJwtDeserializer)
+                .verifyWith(getSigningCertificate().getPublicKey())
+                // see: TokenServiceImpl.java
+                .requireAudience("shiro-jwt")
+                .requireIssuer(issuerName)
+                .build();
     }
-  }
+
+    protected KeyStore getTrustStore()
+            throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
+        final KeyStore trustStore = new KeystoreLoader().loadTruststore();
+        return requireNonNull(trustStore);
+    }
+
+    private Certificate getSigningCertificate() {
+        try {
+            final Certificate issuer = getTrustStore().getCertificate("issuer");
+
+            return requireNonNull(issuer);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException javaSecurityKeyStoreException) {
+            throw new IllegalStateException(javaSecurityKeyStoreException);
+        } catch (IOException javaIoIOException) {
+            throw new UncheckedIOException(javaIoIOException);
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            this.jsonbJwtDeserializer.destroy();
+        } catch (RuntimeException runtimeException) {
+            LOG.log(Level.WARNING, "Unable to destroy jsonbJwtDeserializer class.", runtimeException);
+        }
+    }
 }

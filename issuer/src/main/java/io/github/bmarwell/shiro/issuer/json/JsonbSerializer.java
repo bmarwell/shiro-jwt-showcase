@@ -31,31 +31,26 @@ import javax.json.bind.JsonbConfig;
 @ApplicationScoped
 public class JsonbSerializer implements Serializer<Map<String, ?>> {
 
-  private static final JsonbConfig JSONB_CONFIG = new JsonbConfig()
-      .withFormatting(Boolean.TRUE);
+    private static final JsonbConfig JSONB_CONFIG = new JsonbConfig().withFormatting(Boolean.TRUE);
 
-  private static final Jsonb JSONB = JsonbBuilder.create(JSONB_CONFIG);
+    private static final Jsonb JSONB = JsonbBuilder.create(JSONB_CONFIG);
 
-  @PreDestroy
-  public void destroy() {
-    try {
-      JSONB.close();
-    } catch (Exception javaLangException) {
-      throw new IllegalStateException(javaLangException);
+    @PreDestroy
+    public void destroy() {
+        try {
+            JSONB.close();
+        } catch (Exception javaLangException) {
+            throw new IllegalStateException(javaLangException);
+        }
     }
-  }
 
-  @Override
-  public byte[] serialize(Map<String, ?> stringMap) throws SerializationException {
-    return JSONB
-        .toJson(stringMap)
-        .strip()
-        .getBytes(StandardCharsets.UTF_8);
-  }
+    @Override
+    public byte[] serialize(Map<String, ?> stringMap) throws SerializationException {
+        return JSONB.toJson(stringMap).strip().getBytes(StandardCharsets.UTF_8);
+    }
 
-  @Override
-  public void serialize(Map<String, ?> stringMap, OutputStream out) throws SerializationException {
-    JSONB.toJson(stringMap, out);
-  }
-
+    @Override
+    public void serialize(Map<String, ?> stringMap, OutputStream out) throws SerializationException {
+        JSONB.toJson(stringMap, out);
+    }
 }
