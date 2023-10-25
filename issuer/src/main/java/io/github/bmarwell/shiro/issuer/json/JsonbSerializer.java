@@ -18,6 +18,7 @@ package io.github.bmarwell.shiro.issuer.json;
 
 import io.jsonwebtoken.io.SerializationException;
 import io.jsonwebtoken.io.Serializer;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import javax.annotation.PreDestroy;
@@ -51,6 +52,11 @@ public class JsonbSerializer implements Serializer<Map<String, ?>> {
         .toJson(stringMap)
         .strip()
         .getBytes(StandardCharsets.UTF_8);
+  }
+
+  @Override
+  public void serialize(Map<String, ?> stringMap, OutputStream out) throws SerializationException {
+    JSONB.toJson(stringMap, out);
   }
 
 }

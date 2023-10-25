@@ -22,7 +22,6 @@ import io.github.bmarwell.shiro.issuer.json.JsonbSerializer;
 import io.github.bmarwell.shiro.keystore.KeystoreLoader;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Key;
@@ -30,6 +29,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
@@ -56,7 +56,7 @@ public class KeyService implements Serializable {
     final Key signerKey = createKeyStore().getKey("issuer", KEY_PASSWORD);
 
     return Jwts.builder()
-        .serializeToJsonWith(jsonbSerializer)
-        .signWith(requireNonNull(signerKey), SignatureAlgorithm.ES256);
+        .json(jsonbSerializer)
+        .signWith(signerKey);
   }
 }

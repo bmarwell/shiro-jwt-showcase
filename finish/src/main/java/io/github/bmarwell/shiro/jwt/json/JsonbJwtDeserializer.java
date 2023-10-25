@@ -20,6 +20,7 @@ import io.jsonwebtoken.io.DeserializationException;
 import io.jsonwebtoken.io.Deserializer;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
@@ -53,6 +54,11 @@ public class JsonbJwtDeserializer implements Deserializer<Map<String, ?>> {
     } catch (IOException javaIoIOException) {
       throw new DeserializationException(javaIoIOException.getMessage());
     }
+  }
+
+  @Override
+  public Map<String, ?> deserialize(Reader reader) throws DeserializationException {
+    return JSONB.fromJson(reader, Map.class);
   }
 
 }
