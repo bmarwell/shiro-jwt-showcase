@@ -71,7 +71,7 @@
 
     <!-- test dependencies -->
     <dependency.assertj.version>3.24.2</dependency.assertj.version>
-    <dependency.junit.version>5.10.0</dependency.junit.version>
+    <dependency.junit.version>5.10.1</dependency.junit.version>
 
     <!-- plugin dependencies -->
     <dependency.palantir.version>2.38.0</dependency.palantir.version>
