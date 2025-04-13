@@ -77,7 +77,7 @@
     <dependency.palantir.version>2.63.0</dependency.palantir.version>
 
     <!-- maven plugins -->
-    <plugin.maven-dependency-plugin.version>3.7.1</plugin.maven-dependency-plugin.version>
+    <plugin.maven-dependency-plugin.version>3.8.1</plugin.maven-dependency-plugin.version>
     <plugin.maven-source-plugin.version>3.3.1</plugin.maven-source-plugin.version>
     <plugin.maven-resources-plugin.version>3.3.1</plugin.maven-resources-plugin.version>
     <plugin.maven-compiler-plugin.version>3.14.0</plugin.maven-compiler-plugin.version>
