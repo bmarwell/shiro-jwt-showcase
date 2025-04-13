@@ -1,5 +1,28 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "automerge": true,
+      "automergeType": "pr",
+      "matchPackageNames": [
+        "/^org\\.apache\\.maven\\.plugins:.*/"
+      ]
+    },
+    {
+      "versioning": "minor",
+      "automerge": true,
+      "automergeType": "pr",
+      "matchPackageNames": [
+        "!^org\\.apache\\.maven\\.plugins:.*"
+      ]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "automerge": true,
+      "automergeType": "pr"
+    }
   ]
 }
