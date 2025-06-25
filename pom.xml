@@ -74,7 +74,7 @@
     <dependency.junit.version>5.13.2</dependency.junit.version>
 
     <!-- plugin dependencies -->
-    <dependency.palantir.version>2.68.0</dependency.palantir.version>
+    <dependency.palantir.version>2.69.0</dependency.palantir.version>
 
     <!-- maven plugins -->
     <plugin.maven-dependency-plugin.version>3.8.1</plugin.maven-dependency-plugin.version>
