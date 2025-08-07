@@ -70,7 +70,7 @@
     <dependency.slf4j.version>2.0.17</dependency.slf4j.version>
 
     <!-- test dependencies -->
-    <dependency.assertj.version>3.27.3</dependency.assertj.version>
+    <dependency.assertj.version>3.27.4</dependency.assertj.version>
     <dependency.junit.version>5.13.4</dependency.junit.version>
 
     <!-- plugin dependencies -->
