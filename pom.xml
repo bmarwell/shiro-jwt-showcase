@@ -60,7 +60,7 @@
 
     <!-- 3rd party dependencies -->
     <dependency.shiro.version>1.13.0</dependency.shiro.version>
-    <dependency.jjwt.version>0.12.6</dependency.jjwt.version>
+    <dependency.jjwt.version>0.12.7</dependency.jjwt.version>
     <dependency.cxf-rt-rs-client.version>3.6.8</dependency.cxf-rt-rs-client.version>
     <dependency.jaxb-api.version>2.3.1</dependency.jaxb-api.version>
     <dependency.jaxb-runtime.version>4.0.5</dependency.jaxb-runtime.version>
